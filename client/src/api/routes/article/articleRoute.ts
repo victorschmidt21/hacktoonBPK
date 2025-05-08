@@ -1,6 +1,6 @@
 import type { AxiosInstance } from "axios";
 import { templateGetAllArticles, templateGetByIdArticles } from "./template";
-import type { ArticleAttributes } from "./article";
+import type { ArticleAttributes, ArticleDTOPost } from "./article";
 
 export class ArticleRoute {
   server: AxiosInstance | null;
@@ -10,10 +10,14 @@ export class ArticleRoute {
   }
 
   async getAll(): Promise<ArticleAttributes[]> {
-    return this.server?.get("articles") || templateGetAllArticles;
+    return (await this.server?.get("articles"))?.data || templateGetAllArticles;
   }
 
   async getById(id: string | undefined): Promise<ArticleAttributes> {
-    return this.server?.get("articles/" + id) || templateGetByIdArticles;
+    return (await (this.server?.get("articles/" + id)))?.data || templateGetByIdArticles;
+  }
+
+  async post(attributes: ArticleDTOPost): Promise<void> {
+    return (await (this.server?.post("articles", attributes)))
   }
 }

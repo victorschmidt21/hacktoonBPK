@@ -1,6 +1,6 @@
 import type { AxiosInstance } from "axios";
 import type { LoginAttributes } from "./login";
-import type { User, UserAttributes } from "../user/user";
+import type { UserAttributes } from "../user/user";
 import { jwtDecode } from 'jwt-decode';
 
 export class LoginRoute {
@@ -11,7 +11,7 @@ export class LoginRoute {
     }
 
     async post(attributes: LoginAttributes): Promise<UserAttributes> {
-        const response = await this.server!.post("login", attributes);
+        const response = await this.server!.post("user/login", attributes);
         console.log(response);
         const userPayload = jwtDecode(response.data.token) as UserAttributes;
 

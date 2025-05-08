@@ -33,3 +33,11 @@ export class Event implements EventAttributes {
         this.updated_at = attributes.updated_at;
     }
 }
+
+export interface EventDTOPost {
+    img_url_evento: string
+    title: string
+    description: string
+    dt_start: string
+    dt_end: string
+}

@@ -32,9 +32,14 @@ const CommentSection = ({ articleId }: { articleId: number }) => {
         comentario: newCommentText,
         user_id: user!.id,
       };
-      api.comments.post(newComment);
-      getCommentsByArticleId();
-      setNewCommentText("");
+      try {
+        api.comments.post(newComment);
+        getCommentsByArticleId();
+        setNewCommentText("");
+      } catch (error) {
+        getCommentsByArticleId();
+        setNewCommentText("");
+      }
     }
   };
 

@@ -35,9 +35,9 @@ export function LoginScreen() {
     try {
       const user = await api.login.post({email, password})
       setUser(user);
-      navigate("/home")
+      navigate("/")
     } catch (error) {
-      setError("Erro no sistema!");
+      setError("Usuário não encontrado");
       setIsLoading(false);
     }
   };

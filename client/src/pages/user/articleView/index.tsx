@@ -47,7 +47,7 @@ export function ArticleView() {
 
             <div className="flex items-center mb-6">
               <img
-                src={article?.user.urlPerfil}
+                src={article?.user.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
                 alt={article?.user.name}
                 className="w-12 h-12 rounded-full mr-4"
               />

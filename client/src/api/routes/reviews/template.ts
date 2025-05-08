@@ -2,7 +2,7 @@ import type { ReviewAttributes } from "./reviews";
 
 export const templateGetAllReviews: ReviewAttributes[] = [
     {
-        comentario_id: 1,
+        review_id: 1,
         comentario: "Ruim",
         article_id: 1,
         created_at: new Date().toISOString(),
@@ -10,7 +10,7 @@ export const templateGetAllReviews: ReviewAttributes[] = [
         user_id: "1"
     },
     {
-        comentario_id: 2,
+        review_id: 2,
         comentario: "Bacaninha",
         article_id: 1,
         created_at: new Date().toISOString(),
@@ -18,7 +18,7 @@ export const templateGetAllReviews: ReviewAttributes[] = [
         user_id: "2"
     },
     {
-        comentario_id: 1,
+        review_id: 1,
         comentario: "Melhorou",
         article_id: 1,
         created_at: new Date().toISOString(),

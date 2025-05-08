@@ -16,7 +16,7 @@ export function EventRegistration() {
       "Aprenda os fundamentos de HTML, CSS e JavaScript em um workshop prático de 8 horas.",
     dt_start: "2025-05-10T09:00:00",
     dt_end: "2025-05-10T17:00:00",
-    status: "Em breve",
+    status: "Em andamento",
     updated_at: "2025-05-07T14:30:22",
     created_at: "2025-05-01T10:15:45",
   };
@@ -282,7 +282,7 @@ export function EventRegistration() {
           <div className="mb-6">
             <div className="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-100">
               <img
-                src={currentUser.urlPerfil}
+                src={currentUser.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
                 alt={currentUser.name}
                 className="w-10 h-10 rounded-full mr-4"
               />
@@ -346,7 +346,7 @@ export function EventRegistration() {
                     >
                       <div className="flex items-center">
                         <img
-                          src={collaborator.urlPerfil}
+                          src={collaborator.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
                           alt={collaborator.name}
                           className="w-8 h-8 rounded-full mr-3"
                         />
@@ -516,7 +516,7 @@ export function EventRegistration() {
               <div className="space-y-3">
                 <div className="flex items-center">
                   <img
-                    src={currentUser.urlPerfil}
+                    src={currentUser.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
                     alt={currentUser.name}
                     className="w-8 h-8 rounded-full mr-3"
                   />
@@ -530,7 +530,7 @@ export function EventRegistration() {
                 {articleData.colaborators_id?.map((collaborator, index) => (
                   <div key={index} className="flex items-center">
                     <img
-                      src={collaborator.urlPerfil}
+                      src={collaborator.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
                       alt={collaborator.name}
                       className="w-8 h-8 rounded-full mr-3"
                     />
