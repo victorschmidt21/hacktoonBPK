@@ -10,35 +10,7 @@ type Comment = {
 };
 
 const CommentSection: React.FC = () => {
-  const [comments, setComments] = useState<Comment[]>([
-    {
-      id: "1",
-      username: "schmitz_guisz",
-      avatarUrl: "https://via.placeholder.com/40",
-      content:
-        "Esse é o Buddy Hield que eu sou fã, se ele continuar nessa consistência vai trazer um diferencial enorme pros Guerreiros de San Francisco 💛 💙",
-      timestamp: "23 h",
-      gostos: 100,
-    },
-    {
-      id: "2",
-      username: "suh.japa",
-      avatarUrl: "https://via.placeholder.com/40",
-      content:
-        "Vitória importantíssima, sem sua maior estrela. Quem diria que o Alfred, faria dois jogos seguidos bem. 🔥😊",
-      timestamp: "23 h",
-      gostos: 27,
-    },
-    {
-      id: "3",
-      username: "weeeelr",
-      avatarUrl: "https://via.placeholder.com/40",
-      content:
-        "Eu quero saber aonde estão os lobos emocionados? 😂 😂 😂 😂 cadê o Lobão trator que ia atropelar o warriors",
-      timestamp: "23 h",
-      gostos: 56,
-    },
-  ]);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   const [newCommentText, setNewCommentText] = useState<string>("");
 

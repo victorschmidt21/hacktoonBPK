@@ -1,28 +1,14 @@
-// import { type ReactNode, useState, createContext } from "react";
-// import { User, type UserAttributes } from "../api/routes/user/user";
+import { create } from 'zustand';
+import type { UserAttributes } from '../api/routes/user/user';
 
+interface UserState {
+  user: UserAttributes | null;
+  setUser: (user: UserAttributes) => void;
+  clearUser: () => void;
+}
 
-// interface UserContextData {
-//   user: User | undefined;
-//   setUser(userAttributes: UserAttributes): void;
-// }
-
-// interface UserProviderProps {
-//   children: ReactNode;
-// }
-
-// export const UserContext = createContext({} as UserContextData);
-
-// export function UserProvider({ children }: UserProviderProps) {
-//   const [user, setUserState] = useState<UserAttributes | undefined>(undefined);
-
-//   const setUser = (userAttributes: UserAttributes) => {
-//     setUserState(userAttributes);
-//   };
-
-//   return (
-//     <UserContext.Provider value={{ user, setUser }}>
-//       {children}
-//     </UserContext.Provider>
-//   );
-// }
+export const useUserStore = create<UserState>((set) => ({
+  user: null,
+  setUser: (user) => set({ user }),
+  clearUser: () => set({ user: null }),
+}));
