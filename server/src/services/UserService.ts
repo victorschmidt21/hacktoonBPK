@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import ValidationUtils from "../Utils/ValidationUtils";
 import UserRepository from "../repository/UserRepository";
 import jwtUtils from "../Utils/jwtUtils";
+import { uploadPDFBase64, uploadImageBase64 } from "../Utils/supabaseUtils";
 
 // if (!req.cookies["token"]) {
 //   res.status(401).json({ message: "Token not found" });
@@ -27,11 +28,7 @@ class UserService {
         res.status(400).json({ Message: "Password is missing." });
       }
 
-      let userReceived: User = new User(
-        req.body.email,
-        req.body.password,
-        req.body.name
-      );
+      let userReceived: User = new User(req.body.email, req.body.password);
       if (!this.validationUtils.isEmailValid(userReceived.getEmail())) {
         res.status(400).json({ Message: "Invalid email." });
       }
@@ -55,7 +52,7 @@ class UserService {
         });
         return res.status(200).json({
           message: "Login successful",
-          token: token
+          token: token,
         });
       }
       res.status(400).json({ Message: "Invalid user data." });
@@ -86,9 +83,7 @@ class UserService {
         req.body.email,
         await this.validationUtils.passwordHasher(req.body.password),
         req.body.type,
-        req.body.name,
-        null,
-        req.body.image_base64 //MECHER DEPOIS PARA PASSAR A URL NAO A IMAGEM
+        req.body.name
       );
       if (userReceived) {
         if (this.validationUtils.isEmailValid(userReceived.getEmail())) {
@@ -96,13 +91,17 @@ class UserService {
             userReceived.getEmail()
           );
           if (!userExists) {
-            //FUNÇÃO PARA POSTAR A IMAGEM(implementar)
+            
+            userReceived.setUrlImgUser(
+              await uploadPDFBase64(req.body.image_base64)
+            );
 
             let success = await this.userRepository.save(userReceived, res);
             if (success !== 0 && success) {
               res.status(201).json({ Message: "Created with success" });
             }
           } else {
+          
             res.status(200).json({ Message: "User already exists." });
           }
         } else {

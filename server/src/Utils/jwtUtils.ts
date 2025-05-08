@@ -10,7 +10,7 @@ class jwtUtils {
     email: string;
     id: string | null | undefined;
     url_img_user: string | null | undefined;
-    type: string;
+    type: string | null | undefined;
     name: string | null | undefined;
   }): Promise<string | null | undefined> {
     if (!this.secret) {
