@@ -93,7 +93,7 @@ class UserService {
           if (!userExists) {
             
             userReceived.setUrlImgUser(
-              await uploadPDFBase64(req.body.image_base64)
+              await uploadImageBase64(req.body.image_base64)
             );
 
             let success = await this.userRepository.save(userReceived, res);

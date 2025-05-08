@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import ArticlesRepository from "../repository/ArticlesRepository";
+import { uploadPDFBase64, uploadImageBase64 } from "../Utils/supabaseUtils";
 
 export default class ArticlesService {
   private articlesRepository = new ArticlesRepository();
@@ -61,22 +62,24 @@ export default class ArticlesService {
   public async create(req: Request, res: Response): Promise<void> {
     try {
       const articleData = req.body;
-      
-      // Validação básica dos dados
+      console.log(articleData.tittle);
+      console.log(articleData.creator_id);
+      console.log(articleData.resumo);
       if (!articleData.tittle || !articleData.creator_id || !articleData.resumo) {
-        return res.status(400).json({ message: "Campos obrigatórios não preenchidos" });
+         res.status(400).json({ message: "Campos obrigatórios não preenchidos" });
+        return;
       }
       
-      // Gerar ID único para o artigo se não for fornecido
+
       if (!articleData.article_id) {
         articleData.article_id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
       }
       
-      // Definir valores padrão
+
       articleData.status = articleData.status || "Criado";
       articleData.version = articleData.version || 1;
-      
-      // Garantir que key_words seja um array
+      articleData.url_arquivo = await uploadPDFBase64(articleData.url_arquivo);
+    
       if (typeof articleData.key_words === 'string') {
         articleData.key_words = articleData.key_words.split(',').map((word: string) => word.trim());
       } else if (!Array.isArray(articleData.key_words)) {
@@ -94,12 +97,12 @@ export default class ArticlesService {
       const articleId = req.params.articleId;
       const articleData = req.body;
       
-      // Validação básica dos dados
       if (!articleData.tittle && !articleData.resumo && !articleData.status) {
-        return res.status(400).json({ message: "Nenhum campo válido para atualização" });
+         res.status(400).json({ message: "Nenhum campo válido para atualização" });
+         return;
       }
       
-      // Garantir que key_words seja um array se existir
+      
       if (articleData.key_words) {
         if (typeof articleData.key_words === 'string') {
           articleData.key_words = articleData.key_words.split(',').map((word: string) => word.trim());
@@ -107,7 +110,7 @@ export default class ArticlesService {
           articleData.key_words = [];
         }
       }
-      
+      articleData.url_arquivo = await uploadPDFBase64(articleData.url_arquivo);
       await this.articlesRepository.update(articleId, articleData, req, res);
     } catch (error) {
       res.status(500).json({ message: "Error: " + error });
@@ -119,7 +122,8 @@ export default class ArticlesService {
       const articleId = req.params.articleId;
       
       if (!articleId) {
-        return res.status(400).json({ message: "ID do artigo não fornecido" });
+         res.status(400).json({ message: "ID do artigo não fornecido" });
+         return;
       }
       
       await this.articlesRepository.delete(articleId, req, res);
