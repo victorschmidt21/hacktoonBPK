@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import Home from "./pages/Home";
-import ArticleView from "./pages/article";
-import EventsListing from "./pages/Event";
+import { Home } from "./pages/Home";
+import { ArticleView } from "./pages/article";
+import { EventsListing } from "./pages/eventListing";
 import { EventRegistration } from "./pages/eventRegistration";
-import LoginScreen from "./pages/login";
+import { LoginScreen } from "./pages/loginScreen";
 import { RequireAuth } from "./components/RequireAuth";
 
 export const routerApp = createBrowserRouter([

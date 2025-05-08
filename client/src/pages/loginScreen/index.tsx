@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const LoginScreen: React.FC = () => {
+export function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -208,4 +208,3 @@ const LoginScreen: React.FC = () => {
   );
 };
 
-export default LoginScreen;
