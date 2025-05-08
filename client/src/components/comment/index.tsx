@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Api } from "../../api/api";
 import type { CommentsAttributes, CommentsDTOPost } from "../../api/routes/comments/comments";
 import { useUserStore } from "../../context/userContext";

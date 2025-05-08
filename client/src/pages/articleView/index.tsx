@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { type ArticleAttributes } from "../../api/routes/article/article";
 import { Api } from "../../api/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "../../components/comment";
 import { Tag } from "../../components/tag";
 import { DownloadButton } from "../../components/downloadButton";
+import { BiEditAlt } from "react-icons/bi";
+import Revisao from "../../components/revisao";
 
 export function ArticleView() {
   const api = new Api();
   const [article, setArticle] = useState<ArticleAttributes>();
   const { id } = useParams();
+  const navigation = useNavigate();
   useEffect(() => {
     async function getArticleById() {
       const response = await api.articles.getById(id);
@@ -29,7 +32,6 @@ export function ArticleView() {
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <article className="bg-white p-8 rounded-lg shadow-sm">
-          {/* Article Header */}
           <header className="mb-8">
             <h1 className="text-3xl font-bold text-[#243444] mb-4">
               {article?.title}
@@ -67,10 +69,8 @@ export function ArticleView() {
           <div className="mt-5 border-t pt-4">
             <div className="flex flex-wrap gap-2 flex-col">
               <h2 className="font-semibold">Tags:</h2>
-              <div className="flex items-center text-sm flex-wrap space-x-2">
-                {article?.key_words.map((item) => (
-                  <Tag>{item}</Tag>
-                ))}
+              <div className="flex items-center text-sm flex-wrap space-x-2 space-y-2">
+                {article?.key_words.map((item) => <Tag>{item}</Tag>)}
               </div>
             </div>
           </div>
@@ -93,7 +93,10 @@ export function ArticleView() {
             </div>
           </div>
 
-          <div className="flex space-x-4 mt-4">
+          <div className="flex space-x-4 mt-4 justify-between">
+          {article?.status == "aproved" && (
+            <div className="flex space-x-4">
+
             <button className="flex items-center text-gray-500 hover:text-gray-900">
               <svg
                 className="h-5 w-5 mr-1"
@@ -121,11 +124,21 @@ export function ArticleView() {
                 />
               </svg>
             </button>
+            </div>
+        )}
+
+            {article?.status != "aproved" && (
+            <a  className="px-2 py-1 rounded-lg bg-[#243444] text-white cursor-pointer flex items-center space-x-2" onClick={()=> navigation(`/eventregistration/${article?.id}`)}><p>Editar</p><BiEditAlt/></a>
+        )}
           </div>
         </article>
-        <CommentSection articleId={article?.id ?? 0}/>
+        {article?.status == "aproved" && (
+          <CommentSection articleId={article.id} />
+        )}
+        {article?.status != "aproved" && (
+          <Revisao articleId={article?.id ? article.id : 123} />
+        )}
       </main>
     </div>
   );
-};
-
+}

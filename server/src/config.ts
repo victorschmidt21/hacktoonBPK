@@ -8,3 +8,5 @@ export const DB_PASS = process.env.DB_PASS;
 export const DB_NAME = process.env.DB_NAME;
 
 export const JWT_SECRET = process.env.JWT_SECRET;
+export const SUPABASEURL = process.env.SUPABASEURL;
+export const SUPABASEKEY = process.env.SUPABASEKEY;

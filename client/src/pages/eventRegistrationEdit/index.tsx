@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   type ArticleAttributes,
   type Colaborator,
 } from "../../api/routes/article/article";
 import type { EventAttributes } from "../../api/routes/events/events";
 import { useParams } from "react-router-dom";
+import { Api } from "../../api/api";
 
-export function EventRegistration() {
+export function EventRegistrationEdit() {
   const { id } = useParams();
+
+  const api = new Api();
+  const [article, setArticle] = useState<ArticleAttributes>();
+  useEffect(() => {
+    async function getArticles() {
+      const response = await api.articles.getById(id);
+      setArticleData(response);
+    }
+    getArticles();
+  }, []);
   const event: EventAttributes = {
     evento_id: 1,
     img_url_evento: "https://example.com/images/evento1.jpg",
@@ -28,28 +39,28 @@ export function EventRegistration() {
   };
 
   const [articleData, setArticleData] = useState<Partial<ArticleAttributes>>({
-    title: "",
-    resume: "",
-    key_words: [],
-    tematic_area: "",
-    url: "",
-    colaborators_id: [],
+    title: article?.title,
+    resume: article?.resume,
+    key_words: article?.key_words,
+    tematic_area: article?.tematic_area,
+    url: article?.url,
+    colaborators_id: article?.colaborators_id,
     user: currentUser,
     event: event,
     version: 1,
-    status: "created",
+    status: article?.status,
   });
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const [newKeyword, setNewKeyword] = useState<string>("");
+  const [newArea, setNewArea] = useState<string>("");
   const [newCollaborator, setNewCollaborator] = useState<{
     email: string;
   }>({
     email: "",
   });
   const [fileSelected, setFileSelected] = useState<File | null>(null);
-
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -100,7 +111,6 @@ export function EventRegistration() {
     }
   };
 
-  // Remove collaborator
   const removeCollaborator = (userId: string) => {
     setArticleData({
       ...articleData,
@@ -110,12 +120,10 @@ export function EventRegistration() {
     });
   };
 
-  // Handle file upload
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFileSelected(e.target.files[0]);
-      // Normalmente, você faria o upload para o servidor e obteria uma URL
-      // Aqui estamos apenas simulando
+
       setArticleData({
         ...articleData,
         url: "https://example.com/uploads/article.pdf",
@@ -123,11 +131,9 @@ export function EventRegistration() {
     }
   };
 
-  // Submit the article
   const handleSubmit = () => {
     setLoading(true);
 
-    // Simulando uma chamada de API
     setTimeout(() => {
       setLoading(false);
     }, 1500);
@@ -185,19 +191,6 @@ export function EventRegistration() {
                   <span className="text-red-500"> (mínimo: 250)</span>
                 )}
               </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors `}
-              >
-                Próximo
-              </button>
             </div>
           </div>
         </div>
@@ -259,19 +252,6 @@ export function EventRegistration() {
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-[#243444] focus:border-transparent"
                 />
               </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors `}
-              >
-                Próximo
-              </button>
             </div>
           </div>
         </div>
@@ -346,11 +326,6 @@ export function EventRegistration() {
                       className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center">
-                        <img
-                          src={collaborator.urlPerfil}
-                          alt={collaborator.name}
-                          className="w-8 h-8 rounded-full mr-3"
-                        />
                         <div>
                           <div className="font-medium">{collaborator.name}</div>
                         </div>
@@ -367,17 +342,6 @@ export function EventRegistration() {
                 </div>
               </div>
             )}
-
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button className="px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors">
-                Próximo
-              </button>
-            </div>
-          </div>
         </div>
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h1 className="text-2xl font-bold text-[#243444] mb-6">
@@ -420,6 +384,36 @@ export function EventRegistration() {
               <p className="text-xs text-gray-500 mt-2">PDF até 10MB</p>
             </div>
 
+            {articleData.url && !fileSelected && (
+              <div className="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-lg flex items-start">
+                <svg
+                  className="w-6 h-6 text-blue-500 mr-3 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <div>
+                  <h4 className="font-medium text-blue-800">Arquivo atual</h4>
+                  <p className="text-sm text-blue-700 mt-1">
+                    {articleData.url.split("/").pop() || "artigo.pdf"}
+                  </p>
+                  <a
+                    href={articleData.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 text-sm underline mt-2 inline-block"
+                  >
+                    Visualizar
+                  </a>
+                </div>
+              </div>
+            )}
+
             {fileSelected && (
               <div className="mt-4 p-4 bg-green-50 border border-green-100 rounded-lg flex items-start">
                 <svg
@@ -435,7 +429,7 @@ export function EventRegistration() {
                 </svg>
                 <div>
                   <h4 className="font-medium text-green-800">
-                    Arquivo selecionado
+                    Novo arquivo selecionado
                   </h4>
                   <p className="text-sm text-green-700 mt-1">
                     {fileSelected.name} (
@@ -445,23 +439,10 @@ export function EventRegistration() {
               </div>
             )}
           </div>
-
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors`}
-              >
-                Próximo
-              </button>
-            </div>
-          </div>
         </div>
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h1 className="text-2xl font-bold text-[#243444] mb-6">
-            Revisar e Submeter
+            Revisar e Editar
           </h1>
 
           <div>
@@ -516,11 +497,6 @@ export function EventRegistration() {
               </h2>
               <div className="space-y-3">
                 <div className="flex items-center">
-                  <img
-                    src={currentUser.urlPerfil}
-                    alt={currentUser.name}
-                    className="w-8 h-8 rounded-full mr-3"
-                  />
                   <div>
                     <div className="font-medium">
                       {currentUser.name} (Autor Principal)
@@ -530,11 +506,6 @@ export function EventRegistration() {
 
                 {articleData.colaborators_id?.map((collaborator, index) => (
                   <div key={index} className="flex items-center">
-                    <img
-                      src={collaborator.urlPerfil}
-                      alt={collaborator.name}
-                      className="w-8 h-8 rounded-full mr-3"
-                    />
                     <div>
                       <div className="font-medium">{collaborator.name}</div>
                     </div>
@@ -559,47 +530,23 @@ export function EventRegistration() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>{fileSelected ? fileSelected.name : "artigo.pdf"}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <svg
-                  className="h-5 w-5 text-yellow-600"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800">Atenção</h3>
-                <div className="mt-2 text-sm text-yellow-700">
-                  <p>
-                    Após submeter o artigo, ele será enviado para revisão. Você
-                    poderá acompanhar o status da submissão na sua área de
-                    usuário. Certifique-se de que todas as informações estão
-                    corretas antes de submeter.
-                  </p>
-                </div>
+                <span>
+                  {fileSelected
+                    ? fileSelected.name
+                    : articleData.url
+                    ? articleData.url.split("/").pop() || "artigo.pdf"
+                    : "Nenhum arquivo selecionado"}
+                </span>
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-200 pt-6 mt-6">
             <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
               <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
+                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${
+                  loading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
                 onClick={handleSubmit}
                 disabled={loading}
               >
@@ -628,7 +575,7 @@ export function EventRegistration() {
                     Processando...
                   </>
                 ) : (
-                  "Submeter Artigo"
+                  "Editar Artigo"
                 )}
               </button>
             </div>
