@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { type ArticleAttributes } from "../../../api/routes/article/article";
 import { Api } from "../../../api/api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Tag } from "../../../components/user/tag";
 import { DownloadButton } from "../../../components/user/downloadButton";
-import { BiEditAlt } from "react-icons/bi";
 import RevisaoAv from "../../../components/avaliador/revisaoAv";
 
 export function ArticleViewAv() {
   const api = new Api();
   const [article, setArticle] = useState<ArticleAttributes>();
   const { id } = useParams();
-  const navigation = useNavigate();
   useEffect(() => {
     async function getArticleById() {
       const response = await api.articles.getById(id);

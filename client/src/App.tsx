@@ -13,6 +13,10 @@ import { EventView } from "./pages/user/eventView";
 import { LayoutAvaliador } from "./components/avaliador/LayoutAvaliador";
 import { EventViewAv } from "./pages/avaliador/eventView";
 import { ArticleViewAv } from "./pages/avaliador/articleView";
+import { HomeAd } from "./pages/admin/Home";
+import { LayoutAd } from "./components/admin/LayoutAd";
+import EventCreationPage from "./pages/admin/eventCreationPage";
+import { UsersAd } from "./pages/admin/users";
 
 export const routerApp = createBrowserRouter([
   {
@@ -52,6 +56,23 @@ export const routerApp = createBrowserRouter([
           {
             element: <EventView />,
             path: "/event/:id",
+          },
+        ],
+      },
+      {
+        element: <LayoutAd />,
+        children: [
+          {
+            element: <HomeAd />,
+            path: "/admin",
+          },
+          {
+            element: <EventCreationPage />,
+            path: "/admin/event/new",
+          },
+          {
+            element: <UsersAd />,
+            path: "/admin/users",
           },
         ],
       },
