@@ -15,7 +15,7 @@ export interface ArticleAttributes {
     colaborators_id: Colaborator[]
     resume: string
     key_words: string[]
-    tematic_area: string[]
+    tematic_area: string
     url: string
     version: number
     status: "created" | "revisao" | "aproved" | "rejected"
@@ -32,7 +32,7 @@ export class Article implements ArticleAttributes {
     colaborators_id: Colaborator[]
     resume: string
     key_words: string[]
-    tematic_area: string[]
+    tematic_area: string
     url: string
     version: number
     status: "created" | "revisao" | "aproved" | "rejected"
