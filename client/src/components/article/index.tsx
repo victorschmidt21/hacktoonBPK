@@ -1,4 +1,6 @@
 import { type ArticleAttributes } from "../../api/routes/article/article";
+import { DownloadButton } from "../downloadButton";
+import { Tag } from "../tag";
 
 export function Article({ article }: { article: ArticleAttributes }) {
   const date = new Date(article.created_at);
@@ -42,12 +44,7 @@ export function Article({ article }: { article: ArticleAttributes }) {
       </div>
 
       <div className="mb-4 mt-2">
-        <a
-          download={article.url}
-          className="px-8 py-1 rounded-lg bg-[#243444] text-white cursor-pointer hover:scale-105"
-        >
-          Download artigo
-        </a>
+        <DownloadButton url={article.url} />
       </div>
 
       <div className="flex items-center justify-between text-gray-500 mt-4">
@@ -87,9 +84,7 @@ export function Article({ article }: { article: ArticleAttributes }) {
         <div className="flex flex-wrap gap-2">
           <div className="flex items-center text-sm flex-wrap space-x-2">
             {article.key_words.map((item) => (
-              <span className="inline-flex items-center px-2 py-1 rounded bg-neutral-200 text-neutral-800">
-                {item}
-              </span>
+              <Tag>{item}</Tag>
             ))}
           </div>
         </div>
