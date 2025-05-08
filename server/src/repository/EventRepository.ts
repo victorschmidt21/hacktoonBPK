@@ -2,9 +2,8 @@ import EventModel from "../models/EventModel";
 import db from "../database/database";
 import QueryReturn from "../Utils/QueryReturn";
 import QueryUtils from "../Utils/QueryUtils";
-
 import ValidationUtils from "../Utils/ValidationUtils";
-import e, { Request, Response } from "express";
+import { Request, Response } from "express";
 
 export class EventRepository {
   public async getAll(req: Request, res: Response): Promise<void> {
