@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Api } from "../../api/api";
-import { Article } from "../../components/articlePublish";
 import type { ArticleAttributes } from "../../api/routes/article/article";
+import { ArticleEdit } from "../../components/articleEdit";
 
 export function MyArticle() {
   const api = new Api();
@@ -21,7 +21,7 @@ export function MyArticle() {
 
         <div className="space-y-8">
           {articles.map((article) => (
-            <Article article={article} />
+            <ArticleEdit article={article} />
           ))}
         </div>
       </main>
