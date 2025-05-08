@@ -1,10 +1,10 @@
 import type { EventAttributes } from "../events/events"
 
 export interface Colaborator {
-    user_id: string
-    name: string,
-    urlPerfil?: string
-}
+    user_id: string; 
+    name: string;
+    urlPerfil: string;
+  }
 
 
 export interface ArticleAttributes {
