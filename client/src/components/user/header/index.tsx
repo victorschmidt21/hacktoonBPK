@@ -62,7 +62,7 @@ const Header = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <a href="/profile" className="text-[#243444] hover:text-[#3a556f]">
+            <a href="" className="text-[#243444] hover:text-[#3a556f]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-7 w-7"

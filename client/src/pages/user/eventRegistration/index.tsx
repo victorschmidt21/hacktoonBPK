@@ -1,42 +1,18 @@
 import React, { useState } from "react";
-import {
-  type ArticleAttributes,
-  type Colaborator,
-} from "../../../api/routes/article/article";
-import type { EventAttributes } from "../../../api/routes/events/events";
+import { type ArticleDTOPost } from "../../../api/routes/article/article";
 import { useParams } from "react-router-dom";
 
 export function EventRegistration() {
   const { id } = useParams();
-  const event: EventAttributes = {
-    evento_id: 1,
-    img_url_evento: "https://example.com/images/evento1.jpg",
-    title: "Workshop de Desenvolvimento Web",
-    description:
-      "Aprenda os fundamentos de HTML, CSS e JavaScript em um workshop prático de 8 horas.",
-    dt_start: "2025-05-10T09:00:00",
-    dt_end: "2025-05-10T17:00:00",
-    status: "Em andamento",
-    updated_at: "2025-05-07T14:30:22",
-    created_at: "2025-05-01T10:15:45",
-  };
 
-  const currentUser: Colaborator = {
-    user_id: "user123",
-    name: "João Silva",
-    urlPerfil: "https://via.placeholder.com/40",
-  };
-
-  const [articleData, setArticleData] = useState<Partial<ArticleAttributes>>({
-    title: "",
-    resume: "",
+  const [articleData, setArticleData] = useState<Partial<ArticleDTOPost>>({
+    tittle: "",
+    creator_id: 454,
+    resumo: "",
     key_words: [],
     tematic_area: "",
-    url: "",
-    colaborators_id: [],
-    user: currentUser,
-    event: event,
-    version: 1,
+    url_arquivo: "",
+    evento_id: Number(id),
     status: "criado",
   });
 
@@ -82,34 +58,6 @@ export function EventRegistration() {
     });
   };
 
-  const addCollaborator = () => {
-    if (newCollaborator.email.trim()) {
-      const newCollab: Colaborator = {
-        user_id: `user_${Date.now()}`,
-        name: "",
-        urlPerfil: "https://via.placeholder.com/40",
-      };
-
-      setArticleData({
-        ...articleData,
-        colaborators_id: [...(articleData.colaborators_id || []), newCollab],
-      });
-
-      setNewCollaborator({ email: "" });
-    }
-  };
-
-  // Remove collaborator
-  const removeCollaborator = (userId: string) => {
-    setArticleData({
-      ...articleData,
-      colaborators_id: articleData.colaborators_id?.filter(
-        (c) => c.user_id !== userId
-      ),
-    });
-  };
-
-  // Handle file upload
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFileSelected(e.target.files[0]);
@@ -117,7 +65,7 @@ export function EventRegistration() {
       // Aqui estamos apenas simulando
       setArticleData({
         ...articleData,
-        url: "https://example.com/uploads/article.pdf",
+        url_arquivo: "https://example.com/uploads/article.pdf",
       });
     }
   };
@@ -152,7 +100,7 @@ export function EventRegistration() {
                 type="text"
                 id="title"
                 name="title"
-                value={articleData.title}
+                value={articleData.tittle}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#243444] focus:border-transparent"
                 required
@@ -172,15 +120,15 @@ export function EventRegistration() {
               <textarea
                 id="resume"
                 name="resume"
-                value={articleData.resume}
+                value={articleData.resumo}
                 onChange={handleInputChange}
                 rows={5}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#243444] focus:border-transparent"
                 required
               />
               <div className="mt-1 text-sm text-gray-500">
-                {articleData.resume?.length || 0} caracteres
-                {articleData.resume && articleData.resume.length < 250 && (
+                {articleData.resumo?.length || 0} caracteres
+                {articleData.resumo && articleData.resumo.length < 250 && (
                   <span className="text-red-500"> (mínimo: 250)</span>
                 )}
               </div>
@@ -280,20 +228,6 @@ export function EventRegistration() {
           </h1>
 
           <div className="mb-6">
-            <div className="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-100">
-              <img
-                src={currentUser.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                alt={currentUser.name}
-                className="w-10 h-10 rounded-full mr-4"
-              />
-              <div>
-                <div className="font-medium">{currentUser.name} (Você)</div>
-                <div className="text-sm text-gray-500">Autor Principal</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-6">
             <h2 className="text-lg font-medium text-gray-700 mb-3">
               Adicionar Colaboradores
             </h2>
@@ -323,49 +257,12 @@ export function EventRegistration() {
 
             <button
               type="button"
-              onClick={addCollaborator}
               className="px-4 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors"
               disabled={!newCollaborator.email}
             >
               Adicionar Colaborador
             </button>
           </div>
-
-          {articleData.colaborators_id &&
-            articleData.colaborators_id.length > 0 && (
-              <div className="mb-6">
-                <h3 className="text-lg font-medium text-gray-700 mb-3">
-                  Colaboradores Adicionados
-                </h3>
-
-                <div className="space-y-3">
-                  {articleData.colaborators_id.map((collaborator, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
-                    >
-                      <div className="flex items-center">
-                        <img
-                          src={collaborator.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                          alt={collaborator.name}
-                          className="w-8 h-8 rounded-full mr-3"
-                        />
-                        <div>
-                          <div className="font-medium">{collaborator.name}</div>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeCollaborator(collaborator.user_id)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        Remover
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
           <div className="border-t border-gray-200 pt-6 mt-6">
             <div className="flex justify-between items-center">
@@ -471,11 +368,11 @@ export function EventRegistration() {
               <div className="mt-3 space-y-3">
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Título</h4>
-                  <p className="text-gray-800">{articleData.title}</p>
+                  <p className="text-gray-800">{articleData.tittle}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Resumo</h4>
-                  <p className="text-gray-800">{articleData.resume}</p>
+                  <p className="text-gray-800">{articleData.resumo}</p>
                 </div>
               </div>
             </div>
@@ -515,123 +412,114 @@ export function EventRegistration() {
               </h2>
               <div className="space-y-3">
                 <div className="flex items-center">
-                  <img
-                    src={currentUser.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                    alt={currentUser.name}
-                    className="w-8 h-8 rounded-full mr-3"
-                  />
-                  <div>
-                    <div className="font-medium">
-                      {currentUser.name} (Autor Principal)
-                    </div>
-                  </div>
-                </div>
-
-                {articleData.colaborators_id?.map((collaborator, index) => (
-                  <div key={index} className="flex items-center">
+                  <div key={1} className="flex items-center">
                     <img
-                      src={collaborator.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                      alt={collaborator.name}
+                      src={
+                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"
+                      }
+                      alt={"54"}
                       className="w-8 h-8 rounded-full mr-3"
                     />
                     <div>
-                      <div className="font-medium">{collaborator.name}</div>
+                      <div className="font-medium"></div>
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
 
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <h2 className="text-lg font-semibold text-[#243444] mb-3">
-                Arquivo
-              </h2>
-              <div className="flex items-center">
-                <svg
-                  className="w-6 h-6 text-red-500 mr-3"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span>{fileSelected ? fileSelected.name : "artigo.pdf"}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <svg
-                  className="h-5 w-5 text-yellow-600"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800">Atenção</h3>
-                <div className="mt-2 text-sm text-yellow-700">
-                  <p>
-                    Após submeter o artigo, ele será enviado para revisão. Você
-                    poderá acompanhar o status da submissão na sua área de
-                    usuário. Certifique-se de que todas as informações estão
-                    corretas antes de submeter.
-                  </p>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <h2 className="text-lg font-semibold text-[#243444] mb-3">
+                  Arquivo
+                </h2>
+                <div className="flex items-center">
+                  <svg
+                    className="w-6 h-6 text-red-500 mr-3"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>{fileSelected ? fileSelected.name : "artigo.pdf"}</span>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${
-                  loading ? "opacity-70 cursor-not-allowed" : ""
-                }`}
-                onClick={handleSubmit}
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Processando...
-                  </>
-                ) : (
-                  "Submeter Artigo"
-                )}
-              </button>
+            <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-100">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg
+                    className="h-5 w-5 text-yellow-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-yellow-800">
+                    Atenção
+                  </h3>
+                  <div className="mt-2 text-sm text-yellow-700">
+                    <p>
+                      Após submeter o artigo, ele será enviado para revisão.
+                      Você poderá acompanhar o status da submissão na sua área
+                      de usuário. Certifique-se de que todas as informações
+                      estão corretas antes de submeter.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-6 mt-6">
+              <div className="flex justify-between items-center">
+                <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
+                  Voltar
+                </button>
+                <button
+                  className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${
+                    loading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Processando...
+                    </>
+                  ) : (
+                    "Submeter Artigo"
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

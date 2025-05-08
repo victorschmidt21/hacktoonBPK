@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { EventAttributes } from "../../../api/routes/events/events";
 import { Api } from "../../../api/api";
-import { EventComponentAv } from "../../../components/avaliador/EventComponentAv";
+import { EventComponentAv } from "../../../components/avaliador/EvenComponentAv";
 
 export function HomeAvaliador() {
   const api = new Api();

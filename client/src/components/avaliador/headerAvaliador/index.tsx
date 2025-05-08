@@ -56,7 +56,6 @@ const HeaderAvaliador = () => {
           <div className="flex items-center space-x-4">
             {/* User icon */}
             <button
-              onClick={() => setIsModalOpen(!isModalOpen)}
               className="text-[#243444] hover:text-[#3a556f]"
             >
               <svg
