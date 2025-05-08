@@ -1,13 +1,19 @@
 import React, { useState } from "react";
+import { Api } from "../../api/api";
+import { useUserStore } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 export function LoginScreen() {
+  const api = new Api();
+  const { setUser } = useUserStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validação básica
@@ -25,12 +31,15 @@ export function LoginScreen() {
     setError(null);
     setIsLoading(true);
 
-    // Simulando uma chamada de API
-    setTimeout(() => {
+    
+    try {
+      const user = await api.login.post({email, password})
+      setUser(user);
+      navigate("/home")
+    } catch (error) {
+      setError("Erro no sistema!");
       setIsLoading(false);
-      // Aqui você redirecionaria após sucesso
-      console.log("Login submitted:", { email, password, rememberMe });
-    }, 1500);
+    }
   };
 
   return (
@@ -56,15 +65,6 @@ export function LoginScreen() {
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Entre na sua conta
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Ou{" "}
-          <a
-            href="#"
-            className="font-medium text-[#243444] hover:text-[#3a556f]"
-          >
-            crie uma nova conta
-          </a>
-        </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
