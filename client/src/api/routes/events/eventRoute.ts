@@ -10,10 +10,10 @@ export class EventRoute {
     }
 
     async getAll(): Promise<EventAttributes[]> {
-        return this.server?.get("evento") || templateGetAllEvents;
+        return (await (this.server?.get("evento")))?.data || templateGetAllEvents;
     }
 
     async getById(id: string | undefined): Promise<EventAttributes> {
-        return this.server?.get("evento/" + id) || templateGetByIdEvent;
+        return (await (this.server?.get("evento/" + id)))?.data || templateGetByIdEvent;
     }
 }
