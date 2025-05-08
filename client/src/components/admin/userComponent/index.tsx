@@ -1,4 +1,4 @@
-import { BiEditAlt, BiTrash } from "react-icons/bi";
+import {  BiTrash } from "react-icons/bi";
 import type { UserAttributes } from "../../../api/routes/user/user";
 import { GrEdit } from "react-icons/gr";
 

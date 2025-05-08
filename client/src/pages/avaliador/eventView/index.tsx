@@ -17,6 +17,8 @@ export interface EventAttributes {
   created_at: string;
 }
 
+
+
 export function EventViewAv() {
   const [event, setEvent] = useState<EventAttributes | null>(null);
   const [status, setStatus] = useState("pendente");
@@ -60,14 +62,12 @@ export function EventViewAv() {
     if (!status) return "bg-gray-100 text-gray-800";
 
     switch (status) {
-      case "Aberto para inscrições":
-        return "bg-green-100 text-green-800";
-      case "Iniciando":
-        return "bg-blue-100 text-blue-800";
-      case "Em breve":
-        return "bg-yellow-100 text-yellow-800";
       case "Finalizado":
-        return "bg-red-100 text-red-800";
+        return "bg-green-100 text-green-800";
+      case "Em breve":
+        return "bg-blue-100 text-blue-800";
+      case "Em andamento":
+        return "bg-yellow-100 text-yellow-800";
       default:
         return "bg-gray-100 text-gray-800";
     }
