@@ -3,7 +3,7 @@ import { Layout } from "./components/Layout";
 import Home from "./pages/Home";
 import ArticleView from "./pages/article";
 import EventsListing from "./pages/Event";
-import EventRegistration from "./pages/eventRegistration";
+import { EventRegistration } from "./pages/eventRegistration";
 import LoginScreen from "./pages/login";
 import { RequireAuth } from "./components/RequireAuth";
 
@@ -13,7 +13,7 @@ export const routerApp = createBrowserRouter([
     element: <LoginScreen />,
   },
   {
-    element: <RequireAuth />, 
+    element: <RequireAuth />,
     children: [
       {
         element: <Layout />,
@@ -32,7 +32,7 @@ export const routerApp = createBrowserRouter([
           },
           {
             element: <EventRegistration />,
-            path: "/eventregistration",
+            path: "/eventregistration/new/:id",
           },
         ],
       },
