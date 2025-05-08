@@ -15,7 +15,7 @@ export class EventRepository {
          ORDER BY dt_start DESC`
       );
 
-      const rows: any = result[0]; // <--- Aqui está o seu array de eventos
+      const rows: any = result[0]; 
       const eventos = rows.map((row: any) => new EventModel(row));
       res.status(200).json(eventos);
     } catch (error) {

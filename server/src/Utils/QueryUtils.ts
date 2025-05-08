@@ -1,5 +1,6 @@
 import User from "../models/UserModel";
 import QueryReturn from "./QueryReturn";
+import CommentModel from "../models/CommentModel";
 
 class QueryUtils {
   public UserInsertGenerate(user: User): QueryReturn {
@@ -22,6 +23,25 @@ class QueryUtils {
 
     return new QueryReturn(sql, parameters);
   }
+  public CommentInsertGenerate(comment: CommentModel): QueryReturn {
+    const articleId = comment.getArticleId()?.trim();
+    const text = comment.getText()?.trim();
+    const userId = comment.getUserId()?.trim();
+  
+    if (!articleId) throw new Error("Invalid article ID.");
+    if (!text) throw new Error("Invalid comment text.");
+    if (!userId) throw new Error("Invalid user ID.");
+  
+    const columns = ["article_id", "comentario", "user_id", "created_at", "updated_at"];
+    const placeholders = ["?", "?", "?", "NOW()", "NOW()"];
+  
+    const sql = `INSERT INTO tb_comentarios (${columns.join(", ")}) VALUES (${placeholders.join(", ")});`;
+    const parameters = [articleId, text, userId];
+  
+    return new QueryReturn(sql, parameters);
+  }
+  
+
 }
 
 export default QueryUtils;
