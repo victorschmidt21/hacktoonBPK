@@ -6,7 +6,7 @@ import CommentSection from "../../../components/user/comment";
 import { Tag } from "../../../components/user/tag";
 import { DownloadButton } from "../../../components/user/downloadButton";
 import { BiEditAlt } from "react-icons/bi";
-import Revisao from "../../../components/revisao";
+import Revisao from "../../../components/user/revisao";
 
 export function ArticleView() {
   const api = new Api();

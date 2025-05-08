@@ -8,7 +8,9 @@ export function HomeAvaliador() {
   const [events, setEvents] = useState<EventAttributes[]>([]);
   useEffect(() => {
     async function getEvents() {
-      const response = await api.events.getAll();
+      const response = (await api.events.getAll()).filter((event) => {
+        return event.status === "Em andamento";
+      });
       setEvents(response);
     }
     getEvents();

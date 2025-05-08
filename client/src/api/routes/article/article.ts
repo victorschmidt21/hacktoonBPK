@@ -18,7 +18,7 @@ export interface ArticleAttributes {
     tematic_area: string
     url: string
     version: number
-    status: "created" | "revisao" | "aproved" | "rejected"
+    status: 'criado' | 'andamento' | 'revisado' | 'aprovado' | 'rejeitado'
     likes: number
     updated_at: string
     created_at: string
@@ -35,7 +35,7 @@ export class Article implements ArticleAttributes {
     tematic_area: string
     url: string
     version: number
-    status: "created" | "revisao" | "aproved" | "rejected"
+    status: 'criado' | 'andamento' | 'revisado' | 'aprovado' | 'rejeitado'
     likes: number
     updated_at: string
     created_at: string

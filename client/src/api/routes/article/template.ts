@@ -22,7 +22,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
       },
     ],
     event: {
-      evento_id: 35,
+      evento_id: 2,
       img_url_evento: "https://example.com/eventos/ai2025.png",
       title: "Conferência Internacional de Inteligência Artificial 2025",
       description:
@@ -50,7 +50,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
   
   Concluímos com previsões baseadas em tendências atuais e opiniões de especialistas sobre o futuro da inteligência artificial generativa, 
   seu papel na sociedade e os desafios que ainda precisam ser enfrentados para garantir que ela seja utilizada de forma ética, segura e responsável.`,
-    status: "created",
+    status: "criado",
     tematic_area: "Inteligência Artificial",
     url: "https://revista-tech.com/artigos/ia-generativa-2025",
     version: 2,
@@ -80,7 +80,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
     key_words: ["Ciência e tecnologia", "Arduino"],
     likes: 4,
     resume: "Projeto de prototipação",
-    status: "created",
+    status: "revisado",
     tematic_area: "IA",
     url: "path://algo.com",
     version: 1,
@@ -116,7 +116,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
     key_words: ["IA", "Desenvolvimento em Desktop"],
     likes: 4,
     resume: "Um resumo legal",
-    status: "created",
+    status: "revisado",
     tematic_area: "IA",
     url: "path://algo.com",
     version: 1,
@@ -174,7 +174,7 @@ destaca como essas mudanças exigem uma nova abordagem para regulamentação e g
 
 Concluímos com previsões baseadas em tendências atuais e opiniões de especialistas sobre o futuro da inteligência artificial generativa, 
 seu papel na sociedade e os desafios que ainda precisam ser enfrentados para garantir que ela seja utilizada de forma ética, segura e responsável.`,
-  status: "created",
+  status: "aprovado",
   tematic_area: "Inteligência Artificial",
   url: "https://revista-tech.com/artigos/4547sd",
   version: 2,

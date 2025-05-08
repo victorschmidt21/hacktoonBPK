@@ -20,24 +20,30 @@ export interface EventAttributes {
 export function EventViewAv() {
   const [event, setEvent] = useState<EventAttributes | null>(null);
   const [status, setStatus] = useState("pendente");
+  const [articles, setArticles] = useState<ArticleAttributes[]>([]);
   const { id } = useParams();
   const api = new Api();
+
+  async function getArticles(eventoId: number) {
+    console.log(eventoId);
+    const response = (await api.articles.getAll()).filter((article) => {
+      return article.event.evento_id === eventoId;
+    });
+    console.log(response);
+    setArticles(response);
+  }
+
   useEffect(() => {
     async function getEvents() {
       const response = await api.events.getById(id);
       setEvent(response);
+
+      getArticles(response.evento_id);
     }
+
     getEvents();
   }, []);
 
-  const [articles, setArticles] = useState<ArticleAttributes[]>([]);
-  useEffect(() => {
-    async function getArticles() {
-      const response = await api.articles.getAll();
-      setArticles(response);
-    }
-    getArticles();
-  }, []);
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "";
@@ -66,6 +72,18 @@ export function EventViewAv() {
         return "bg-gray-100 text-gray-800";
     }
   };
+
+  const renderArticles = () => {
+    if(status === "pendente") {
+      return articles.filter((article) => {
+        return article.status === "criado" || article.status === "andamento"
+      }).map((article) => <ArticleEditAv article={article} />)
+    }else {
+      return articles.filter((article) => {
+        return article.status === "aprovado" || article.status === "revisado" || article.status === "rejeitado"
+      }).map((article) => <ArticleEditAv article={article} />)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -131,8 +149,7 @@ export function EventViewAv() {
           </button>
         </article>
         <div className="space-y-8 mt-4">
-          {status == "pendente" &&
-            articles.map((article) => <ArticleEditAv article={article} />)}
+          {renderArticles()}
         </div>
       </main>
     </div>
