@@ -1,25 +1,41 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import  Home from "./pages/Home";
+import Home from "./pages/Home";
 import ArticleView from "./pages/article";
 import EventsListing from "./pages/Event";
+import EventRegistration from "./pages/eventRegistration";
+import LoginScreen from "./pages/login";
+import { RequireAuth } from "./components/RequireAuth";
 
 export const routerApp = createBrowserRouter([
   {
-    element: <Layout/>,
+    path: "/login",
+    element: <LoginScreen />,
+  },
+  {
+    element: <RequireAuth />, 
     children: [
       {
-        element: <Home/>,
-        path: "/"
+        element: <Layout />,
+        children: [
+          {
+            element: <Home />,
+            path: "/",
+          },
+          {
+            element: <ArticleView />,
+            path: "/article/:id",
+          },
+          {
+            element: <EventsListing />,
+            path: "/eventos",
+          },
+          {
+            element: <EventRegistration />,
+            path: "/eventregistration",
+          },
+        ],
       },
-      {
-        element: <ArticleView/>,
-        path: "/article/:id"
-      },
-      {
-        element: <EventsListing/>,
-        path: "/eventos"
-      }
-    ]
-  }
-])
+    ],
+  },
+]);
