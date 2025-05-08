@@ -165,8 +165,8 @@ export function EventRegistration() {
         url_arquivo: base64File || ""
       })
       api.articles.post({
-        colaborators: articleData.colaborators || [],
-        creator_id: Number(user?.id),
+        colaborators: [],
+        creator_id: 9,
         evento_id: Number(id),
         key_words: articleData.key_words || [],
         resumo: articleData.resumo || "",
@@ -237,18 +237,7 @@ export function EventRegistration() {
             </div>
           </div>
 
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors `}
-              >
-                Próximo
-              </button>
-            </div>
-          </div>
+          
         </div>
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <div className="space-y-8">
@@ -312,18 +301,7 @@ export function EventRegistration() {
             </div>
           </div>
 
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors `}
-              >
-                Próximo
-              </button>
-            </div>
-          </div>
+          
         </div>
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h1 className="text-2xl font-bold text-[#243444] mb-6">
@@ -414,16 +392,7 @@ export function EventRegistration() {
               </div>
             )}
 
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button className="px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors">
-                Próximo
-              </button>
-            </div>
-          </div>
+          
         </div>
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h1 className="text-2xl font-bold text-[#243444] mb-6">
@@ -492,18 +461,7 @@ export function EventRegistration() {
             )}
           </div>
 
-          <div className="border-t border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
-                Voltar
-              </button>
-              <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors`}
-              >
-                Próximo
-              </button>
-            </div>
-          </div>
+          
         </div>
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h1 className="text-2xl font-bold text-[#243444] mb-6">
@@ -645,7 +603,7 @@ export function EventRegistration() {
                 Voltar
               </button>
               <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""
+                className={`px-6 py-2 bg-[#243444] cursor-pointer text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""
                   }`}
                 onClick={handleSubmit}
                 disabled={loading}

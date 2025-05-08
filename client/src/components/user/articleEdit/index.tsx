@@ -60,10 +60,10 @@ export function ArticleEdit({ article }: { article: ArticleAttributes }) {
       </div>
 
       <div className="mb-3">
-        <h2 className="text-xl font-bold text-[#243444] mb-2">
+        <h2 className="text-xl font-bold text-[#243444] mb-2 cursor-pointer">
           <a
             href={`/article/${article.article_id}`}
-            className="hover:text-blue-600 transition-colors duration-200"
+            className=" transition-colors duration-200"
           >
             <div className="flex items-start">{article.tittle}</div>
           </a>

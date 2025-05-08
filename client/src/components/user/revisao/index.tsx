@@ -7,8 +7,8 @@ const Revisao = ({ articleId }: { articleId: number }) => {
   const api = new Api();
 
   async function getCommentsByArticleId() {
-    const response = await api.comments.getByIdArticle(articleId);
-    setComments(response);
+
+    setComments([]);
   }
 
   useEffect(() => {

@@ -10,11 +10,11 @@ export class CommentsRoute {
     }
 
     async getByIdArticle(id: number | undefined): Promise<CommentsAttributes[]> {
-        const response = await this.server?.get("comentario/" + id);
+        const response = await this.server?.get("comment/" + id);
         return response?.data ?? templateGetByIdArticleComments
     }
 
     async post(comment: CommentsDTOPost): Promise<void> {
-        await this.server?.post("comentario", comment);
+        await this.server?.post("comment", comment);
     }
 }

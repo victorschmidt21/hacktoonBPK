@@ -8,23 +8,24 @@ export interface Colaborator {
 }
 
 
-export interface ArticleAttributes {
-    article_id: number
-    tittle: string,
-    user: Colaborator
-    event: EventAttributes
-    colaborators: Colaborator[]
-    resumo: string
-    key_words: string[]
-    tematic_area: string
-    url: string
-    version: number
-    status: 'criado' | 'andamento' | 'revisado' | 'aprovado' | 'rejeitado'
-    likes: number
-    updated_at: string
-    created_at: string
-    evento_id: number
-}
+    export interface ArticleAttributes {
+        article_id: number
+        tittle: string,
+        user: Colaborator
+        event: EventAttributes
+        colaborators: Colaborator[]
+        resumo: string
+        key_words: string[]
+        tematic_area: string
+        url: string
+        version: number
+        status: 'criado' | 'andamento' | 'revisado' | 'aprovado' | 'rejeitado'
+        likes: number
+        updated_at: string
+        created_at: string
+        evento_id: number
+    }
+
 
 export class Article implements ArticleAttributes {
     article_id: number

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { type ArticleAttributes } from "../../../api/routes/article/article";
 import { Api } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "../../../components/user/comment";
@@ -7,6 +6,7 @@ import { Tag } from "../../../components/user/tag";
 import { DownloadButton } from "../../../components/user/downloadButton";
 import { BiEditAlt } from "react-icons/bi";
 import Revisao from "../../../components/user/revisao";
+import type { ArticleAttributes } from "../../../api/routes/article/article";
 
 export function ArticleView() {
   const api = new Api();
@@ -25,8 +25,9 @@ export function ArticleView() {
 
   useEffect(() => {
     async function getArticleById() {
-      const response = await api.articles.getById(id);
-      setArticle(response);
+      const response = await api.articles.getAll();
+      const articleId = response.filter((item) => item.article_id === Number(id))[0]
+      setArticle(articleId);
     }
     getArticleById();
   }, []);
@@ -111,8 +112,8 @@ export function ArticleView() {
               <div className="flex space-x-4">
                 <button onClick={handleLike}
                   className={`flex items-center  ${like.like
-                      ? "text-gray-950"
-                      : "hover:text-gray-900 text-gray-400"
+                    ? "text-gray-950"
+                    : "hover:text-gray-900 text-gray-400"
                     }  cursor-pointer`}>
                   <svg
                     className="h-5 w-5 mr-1"

@@ -11,11 +11,11 @@ export function Home() {
     async function getArticles() {
       const response = await api.articles.getAll();
       const articlePublish = response.filter((item)=> item.status == "aprovado")
+      console.log(articlePublish);
       setArticles(articlePublish);
     }
 
     getArticles();
-    console.log(articles)
   }, []);
 
   return (

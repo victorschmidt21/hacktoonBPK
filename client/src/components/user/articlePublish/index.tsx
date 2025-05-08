@@ -10,7 +10,6 @@ export function Article({ article }: { article: ArticleAttributes }) {
     year: "numeric",
   });
 
-  console.log(article.user)
 
   return (
     <article

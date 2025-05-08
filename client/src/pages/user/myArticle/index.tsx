@@ -9,7 +9,8 @@ export function MyArticle() {
   useEffect(() => {
     async function getArticles() {
       const response = await api.articles.getAll();
-      setArticles(response);
+      const myArticles = response.filter((item) => item.user.idUser == 9)
+      setArticles(myArticles);
     }
     getArticles();
   }, []);
