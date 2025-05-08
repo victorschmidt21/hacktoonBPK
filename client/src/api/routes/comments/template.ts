@@ -7,8 +7,8 @@ export const templateGetByIdArticleComments = [
       "updated_at": "2025-05-07T16:45:10",
       "user": {
         "idUser": 8,
-        "userName": "Carlos Oliveira",
-        "userEmail": "carlos.oliveira@universidade.edu.br",
+        "name": "Carlos Oliveira",
+        "email": "carlos.oliveira@universidade.edu.br",
         "url_img_user": "https://storage.example.com/users/8/profile.jpg",
         "type": "Avaliador"
       }
@@ -21,8 +21,8 @@ export const templateGetByIdArticleComments = [
       "updated_at": "2025-05-07T17:20:45",
       "user": {
         "idUser": 12,
-        "userName": "Ana Pereira",
-        "userEmail": "ana.pereira@universidade.edu.br",
+        "name": "Ana Pereira",
+        "email": "ana.pereira@universidade.edu.br",
         "url_img_user": "https://storage.example.com/users/12/profile.jpg",
         "type": "Avaliador"
       }
@@ -35,8 +35,8 @@ export const templateGetByIdArticleComments = [
       "updated_at": "2025-05-07T18:15:30",
       "user": {
         "idUser": 5,
-        "userName": "Roberto Santos",
-        "userEmail": "roberto.santos@instituto.org",
+        "name": "Roberto Santos",
+        "email": "roberto.santos@instituto.org",
         "url_img_user": "https://storage.example.com/users/5/profile.jpg",
         "type": "Editor"
       }
@@ -49,8 +49,8 @@ export const templateGetByIdArticleComments = [
       "updated_at": "2025-05-08T09:30:15",
       "user": {
         "idUser": 9,
-        "userName": "Mariana Costa",
-        "userEmail": "mariana.costa@universidade.edu.br",
+        "name": "Mariana Costa",
+        "email": "mariana.costa@universidade.edu.br",
         "url_img_user": "https://storage.example.com/users/9/profile.jpg",
         "type": "Avaliador"
       }
@@ -63,8 +63,8 @@ export const templateGetByIdArticleComments = [
       "updated_at": "2025-05-08T11:20:12",
       "user": {
         "idUser": 15,
-        "userName": "Pedro Almeida",
-        "userEmail": "pedro.almeida@centro.edu.br",
+        "name": "Pedro Almeida",
+        "email": "pedro.almeida@centro.edu.br",
         "url_img_user": "https://storage.example.com/users/15/profile.jpg",
         "type": "Avaliador"
       }

@@ -15,6 +15,12 @@ const CommentSection = ({ articleId }: { articleId: number }) => {
   }
 
   useEffect(() => {
+      async function getCommentsByArticleId() {
+        const response = await api.comments.getByIdArticle(articleId);
+        console.log(response)
+        setComments(response);
+      }
+
       getCommentsByArticleId();
   }, []);
 
