@@ -2,7 +2,6 @@ import User from "../models/UserModel";
 import db from "../database/database";
 import QueryReturn from "../Utils/QueryReturn";
 import QueryUtils from "../Utils/QueryUtils";
-
 import ValidationUtils from "../Utils/ValidationUtils";
 import { Request, Response } from "express";
 
