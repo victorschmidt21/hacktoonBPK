@@ -6,7 +6,7 @@ import articlesRoutes from './articles/ArticlesRoutes';
 
 const allRoutes = Router();
 
-allRoutes.use('/artigo', articlesRoutes);
+allRoutes.use('/articles', articlesRoutes);
 allRoutes.use('/evento', eventRoutes);
 allRoutes.use('/user', usrRoute);
 
