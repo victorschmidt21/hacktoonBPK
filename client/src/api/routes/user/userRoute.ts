@@ -14,6 +14,6 @@ export class UserRoute {
   }
   
   async getAll(): Promise<UserAttributes[]> {
-    return (await this.server!.get("users"))?.data || templateGetAllUsers;
+    return (await this.server?.get("users"))?.data || templateGetAllUsers;
   }
 }
