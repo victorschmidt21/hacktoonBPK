@@ -18,17 +18,7 @@ const CommentSection = ({ articleId }: { articleId: number }) => {
   }
 
   useEffect(() => {
-<<<<<<< HEAD:client/src/components/comment/index.tsx
-      async function getCommentsByArticleId() {
-        const response = await api.comments.getByIdArticle(articleId);
-        console.log(response)
-        setComments(response);
-      }
-
-      getCommentsByArticleId();
-=======
     getCommentsByArticleId();
->>>>>>> frontend/main:client/src/components/user/comment/index.tsx
   }, []);
 
   const handleReplyClick = (username: string) => {
