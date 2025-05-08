@@ -10,10 +10,10 @@ export class ArticleRoute {
   }
 
   async getAll(): Promise<ArticleAttributes[]> {
-    return this.server?.get("articles") || templateGetAllArticles;
+    return (await this.server?.get("articles"))?.data || templateGetAllArticles;
   }
 
   async getById(id: string | undefined): Promise<ArticleAttributes> {
-    return this.server?.get("articles/" + id) || templateGetByIdArticles;
+    return (await (this.server?.get("articles/" + id)))?.data || templateGetByIdArticles;
   }
 }
