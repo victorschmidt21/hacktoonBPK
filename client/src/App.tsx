@@ -7,6 +7,7 @@ import { EventRegistration } from "./pages/eventRegistration";
 import { LoginScreen } from "./pages/loginScreen";
 import { RequireAuth } from "./components/RequireAuth";
 import { MyArticle } from "./pages/myArticle";
+import { EventRegistrationEdit } from "./pages/eventRegistrationEdit";
 
 export const routerApp = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ export const routerApp = createBrowserRouter([
           {
             element: <EventRegistration />,
             path: "/eventregistration/new/:id",
+          },
+          {
+            element: <EventRegistrationEdit />,
+            path: "/eventregistration/:id",
           },
         ],
       },

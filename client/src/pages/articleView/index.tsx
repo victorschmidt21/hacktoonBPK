@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { type ArticleAttributes } from "../../api/routes/article/article";
 import { Api } from "../../api/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "../../components/comment";
 import { Tag } from "../../components/tag";
 import { DownloadButton } from "../../components/downloadButton";
@@ -12,6 +12,7 @@ export function ArticleView() {
   const api = new Api();
   const [article, setArticle] = useState<ArticleAttributes>();
   const { id } = useParams();
+  const navigation = useNavigate();
   useEffect(() => {
     async function getArticleById() {
       const response = await api.articles.getById(id);
@@ -127,7 +128,7 @@ export function ArticleView() {
         )}
 
             {article?.status != "aproved" && (
-            <a  className="px-2 py-1 rounded-lg bg-[#243444] text-white cursor-pointer flex items-center space-x-2"><p>Editar</p><BiEditAlt/></a>
+            <a  className="px-2 py-1 rounded-lg bg-[#243444] text-white cursor-pointer flex items-center space-x-2" onClick={()=> navigation(`/eventregistration/${article?.id}`)}><p>Editar</p><BiEditAlt/></a>
         )}
           </div>
         </article>

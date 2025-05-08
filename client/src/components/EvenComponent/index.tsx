@@ -36,7 +36,7 @@ export function EventComponent({ event }: { event: EventAttributes }) {
         <div className="flex items-center justify-between">
           <div className="flex space-x-2">
             <a
-              href="/eventregistration"
+              href={`/eventregistration/new/${event.evento_id}`}
               className="px-4 py-2 bg-[#243444] hover:bg-gray-900 text-white rounded-md cursor-pointer transition-colors"
             >
               Inscrever-se
