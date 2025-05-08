@@ -11,7 +11,7 @@ export class LoginRoute {
     }
 
     async post(attributes: LoginAttributes): Promise<UserAttributes> {
-        const response = await this.server!.post("login", attributes);
+        const response = await this.server!.post("user/login", attributes);
         console.log(response);
         const userPayload = jwtDecode(response.data.token) as UserAttributes;
 
