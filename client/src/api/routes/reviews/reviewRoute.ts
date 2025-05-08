@@ -9,7 +9,11 @@ export class ReviewRoute {
         this.server = server;
     }
 
-    async getAll(): Promise<ReviewAttributes[]> {
-        return (await this.server?.get("revisao"))?.data || templateGetAllReviews
+    async getByIdArticle(id: string): Promise<ReviewAttributes[]> {
+        return (await this.server?.get("revisao/" + id))?.data || templateGetAllReviews
+    }
+
+    async post(attributes: ReviewAttributes): Promise<void> {
+        return (await this.server?.post("revisao", attributes))
     }
 }

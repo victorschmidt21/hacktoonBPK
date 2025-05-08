@@ -3,7 +3,7 @@ import type { EventAttributes } from "../events/events"
 export interface Colaborator {
     user_id: string
     name: string,
-    urlPerfil: string
+    urlPerfil?: string
 }
 
 
@@ -57,3 +57,20 @@ export class Article implements ArticleAttributes {
         this.title = attributes.title        
     }
 }
+
+export interface ArticleDTOPost {
+    tittle: string
+    creator_id: number
+    resumo: string
+    url_arquivo: string
+    key_words: string[]
+    tematic_area: string
+    status: string
+    evento_id: number
+    colaborators: Colaborator[]
+  }
+  
+  export interface Colaborator {
+    idUser: number
+  }
+  

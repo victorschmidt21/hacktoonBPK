@@ -39,7 +39,7 @@ export function ArticleView() {
 
             <div className="flex items-center mb-6">
               <img
-                src={article?.user.urlPerfil}
+                src={article?.user.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
                 alt={article?.user.name}
                 className="w-12 h-12 rounded-full mr-4"
               />
@@ -96,7 +96,7 @@ export function ArticleView() {
           </div>
 
           <div className="flex space-x-4 mt-4 justify-between">
-            {article?.status == "aproved" && (
+            {article?.status == "aprovado" && (
               <div className="flex space-x-4">
                 <button className="flex items-center text-gray-500 hover:text-gray-900">
                   <svg
@@ -128,7 +128,7 @@ export function ArticleView() {
               </div>
             )}
 
-            {article?.status != "aproved" && (
+            {article?.status != "aprovado" && (
               <a
                 className="px-2 py-1 rounded-lg bg-[#243444] text-white cursor-pointer flex items-center space-x-2"
                 onClick={() => navigation(`/eventregistration/${article?.id}`)}
@@ -139,10 +139,10 @@ export function ArticleView() {
             )}
           </div>
         </article>
-        {article?.status == "aproved" && (
+        {article?.status == "aprovado" && (
           <CommentSection articleId={article.id} />
         )}
-        {article?.status != "aproved" && (
+        {article?.status != "aprovado" && (
           <Revisao articleId={article?.id ? article.id : 123} />
         )}
       </main>

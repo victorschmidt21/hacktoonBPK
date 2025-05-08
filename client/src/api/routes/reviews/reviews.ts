@@ -23,4 +23,4 @@ export class Review implements ReviewAttributes {
         this.user_id = attributes.user_id;
         this.created_at = attributes.created_at;
     }
-}
+} 
