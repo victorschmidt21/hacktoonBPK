@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Api } from "../../../api/api";
 
 export interface EventAttributes {
   evento_id: number;
@@ -14,6 +15,7 @@ export interface EventAttributes {
 }
 
 const EventCreationPage = () => {
+  const api = new Api();
   const navigate = useNavigate();
 
   // Form state
@@ -55,21 +57,44 @@ const EventCreationPage = () => {
       });
     }
   };
-
-  // Handle image upload
+  const [fileSelected, setFileSelected] = useState<File | null>(null);
+  const [base64File, setBase64File] = useState<string | null>(null);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
+    const file = e.target.files?.[0];
+    const allowedTypes = ["image/png", "image/jpeg"];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (file) {
+      if (!allowedTypes.includes(file.type)) {
+        alert("Por favor, selecione uma imagem PNG ou JPG.");
+        return;
+      }
+
+      if (file.size > maxSize) {
+        alert("A imagem deve ter no máximo 10MB.");
+        return;
+      }
+
       setImageFile(file);
 
-      // Create preview
+      // Gerar preview da imagem
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
       };
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          const base64String = reader.result.split(",")[1];
+          setBase64File(base64String);
+        } else {
+          console.error("FileReader result is not a string");
+          setFileSelected(null);
+          setBase64File(null);
+        }
+      };
       reader.readAsDataURL(file);
 
-      // Clear error
+      // Limpar erro, se existir
       if (errors.img_url_evento) {
         setErrors({
           ...errors,
@@ -78,6 +103,7 @@ const EventCreationPage = () => {
       }
     }
   };
+
 
   // Validate form
   const validateForm = (): boolean => {
@@ -125,30 +151,43 @@ const EventCreationPage = () => {
 
     setIsSubmitting(true);
 
-    // Simulate API request
+    try {
+      console.log({
+        description: eventData.description || "",
+        dt_end: eventData.dt_end || "",
+        title: eventData.title || "",
+        dt_start: eventData.dt_start || "",
+        img_url_evento: base64File || ""
+      })
+      api.events.post({
+        description: eventData.description || "",
+        dt_end: eventData.dt_end || "",
+        title: eventData.title || "",
+        dt_start: eventData.dt_start || "",
+        img_url_evento: base64File || ""
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
+
+    setIsSubmitting(false);
+    setSubmitSuccess(true);
+
     setTimeout(() => {
-      // In a real application, you would upload the image and submit the form data to your API
-      console.log("Form data submitted:", eventData);
-      console.log("Image file:", imageFile);
-
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
-
-      setTimeout(() => {
-        setEventData({
-          title: "",
-          description: "",
-          dt_start: "",
-          dt_end: "",
-          status: "Rascunho",
-          img_url_evento: "",
-        });
-        handleNavigate();
-        setImageFile(null);
-        setImagePreview(null);
-        setSubmitSuccess(false);
-      }, 2500);
-    }, 1500);
+      setEventData({
+        title: "",
+        description: "",
+        dt_start: "",
+        dt_end: "",
+        status: "Rascunho",
+        img_url_evento: "",
+      });
+      handleNavigate();
+      setImageFile(null);
+      setImagePreview(null);
+      setSubmitSuccess(false);
+    }, 1000);
   };
 
   return (
@@ -212,9 +251,8 @@ const EventCreationPage = () => {
                       id="title"
                       value={eventData.title}
                       onChange={handleInputChange}
-                      className={`mt-1 block w-full py-2 px-3 border ${
-                        errors.title ? "border-red-300" : "border-gray-300"
-                      } rounded-md shadow-sm focus:outline-none focus:ring-[#243444] focus:border-[#243444]`}
+                      className={`mt-1 block w-full py-2 px-3 border ${errors.title ? "border-red-300" : "border-gray-300"
+                        } rounded-md shadow-sm focus:outline-none focus:ring-[#243444] focus:border-[#243444]`}
                       placeholder="Workshop de Desenvolvimento Web"
                     />
                     {errors.title && (
@@ -237,11 +275,10 @@ const EventCreationPage = () => {
                       rows={5}
                       value={eventData.description}
                       onChange={handleInputChange}
-                      className={`mt-1 block w-full py-2 px-3 border ${
-                        errors.description
-                          ? "border-red-300"
-                          : "border-gray-300"
-                      } rounded-md shadow-sm focus:outline-none focus:ring-[#243444] focus:border-[#243444]`}
+                      className={`mt-1 block w-full py-2 px-3 border ${errors.description
+                        ? "border-red-300"
+                        : "border-gray-300"
+                        } rounded-md shadow-sm focus:outline-none focus:ring-[#243444] focus:border-[#243444]`}
                       placeholder="Descreva o evento em detalhes. Você pode usar quebras de linha para melhor formatação."
                     />
                     {errors.description && (
@@ -344,9 +381,8 @@ const EventCreationPage = () => {
                       id="dt_start"
                       value={eventData.dt_start}
                       onChange={handleInputChange}
-                      className={`mt-1 block w-full py-2 px-3 border ${
-                        errors.dt_start ? "border-red-300" : "border-gray-300"
-                      } rounded-md shadow-sm focus:outline-none focus:ring-[#243444] focus:border-[#243444]`}
+                      className={`mt-1 block w-full py-2 px-3 border ${errors.dt_start ? "border-red-300" : "border-gray-300"
+                        } rounded-md shadow-sm focus:outline-none focus:ring-[#243444] focus:border-[#243444]`}
                     />
                     {errors.dt_start && (
                       <p className="mt-1 text-sm text-red-600">
@@ -368,9 +404,8 @@ const EventCreationPage = () => {
                       id="dt_end"
                       value={eventData.dt_end}
                       onChange={handleInputChange}
-                      className={`mt-1 block w-full py-2 px-3 border ${
-                        errors.dt_end ? "border-red-300" : "border-gray-300"
-                      } rounded-md shadow-sm focus:outline-none     focus:ring-[#243444] focus:border-[#243444]`}
+                      className={`mt-1 block w-full py-2 px-3 border ${errors.dt_end ? "border-red-300" : "border-gray-300"
+                        } rounded-md shadow-sm focus:outline-none     focus:ring-[#243444] focus:border-[#243444]`}
                     />
                     {errors.dt_end && (
                       <p className="mt-1 text-sm text-red-600">
@@ -385,7 +420,7 @@ const EventCreationPage = () => {
               <div className="pt-5 border-t border-gray-200">
                 <div className="flex justify-end">
                   <button
-                  onClick={handleNavigate}
+                    onClick={handleNavigate}
                     type="button"
                     className="cursor-pointer bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#243444]"
                   >
@@ -395,9 +430,8 @@ const EventCreationPage = () => {
                     type="button"
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className={`cursor-pointer ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#243444] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#243444] ${
-                      isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-                    }`}
+                    className={`cursor-pointer ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#243444] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#243444] ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                      }`}
                   >
                     {isSubmitting ? (
                       <>

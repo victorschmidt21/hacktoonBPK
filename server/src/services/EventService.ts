@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { EventRepository } from "../repository/EventRepository";
 import EventModel from "../models/EventModel";
+import { uploadPDFBase64, uploadImageBase64 } from "../Utils/supabaseUtils";
 
 class EventService {
   private eventRepo = new EventRepository();
@@ -15,7 +16,8 @@ class EventService {
 
   public async insertEvent(req: Request, res: Response): Promise<void> {
     try {
-      let img_url_evento: string = req.body.img_url_evento;
+      let img_url_evento: string = await uploadImageBase64(req.body.img_url_evento);
+      console.log(img_url_evento);
       let title: string = req.body.title;
       let description: string = req.body.description;
       let dt_start: string = req.body.dt_start;
@@ -31,6 +33,7 @@ class EventService {
       } else {
         status = "Finalizado";
       }
+
 
       let data = {
         img_url_evento: img_url_evento,

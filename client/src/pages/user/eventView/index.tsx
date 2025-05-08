@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Api } from "../../../api/api";
 
 export interface EventAttributes {
@@ -65,8 +65,15 @@ export function EventView() {
           alt={event?.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end">
-          <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+      </div>
+
+      <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <article className="bg-white p-8 rounded-lg shadow-sm">
+          <div className="max-w-4xl w-full flex  justify-between mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 className="text-gray-900 text-3xl md:text-4xl font-bold mt-2">
+              {event?.title}
+            </h1>
             <span
               className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
                 event?.status
@@ -74,15 +81,8 @@ export function EventView() {
             >
               {event?.status}
             </span>
-            <h1 className="text-white text-3xl md:text-4xl font-bold mt-2">
-              {event?.title}
-            </h1>
-          </div>
-        </div>
-      </div>
 
-      <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <article className="bg-white p-8 rounded-lg shadow-sm">
+          </div>
           <header className="mb-8">
             <div className="flex justify-between mx-5 flex-wrap gap-4">
               <div>
