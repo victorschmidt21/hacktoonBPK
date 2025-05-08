@@ -6,7 +6,7 @@ import CommentSection from "../../components/comment";
 import { Tag } from "../../components/tag";
 import { DownloadButton } from "../../components/downloadButton";
 
-const ArticleView = () => {
+export function ArticleView() {
   const api = new Api();
   const [article, setArticle] = useState<ArticleAttributes>();
   const { id } = useParams();
@@ -129,4 +129,3 @@ const ArticleView = () => {
   );
 };
 
-export default ArticleView;

@@ -3,7 +3,7 @@ import { Api } from "../../api/api";
 import { Article } from "../../components/article";
 import type { ArticleAttributes } from "../../api/routes/article/article";
 
-const Home = () => {
+export function Home() {
   const api = new Api();
   const [articles, setArticles] = useState<ArticleAttributes[]>([]);
   useEffect(() => {
@@ -32,5 +32,3 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;

@@ -3,7 +3,7 @@ import type { EventAttributes } from "../../api/routes/events/events";
 import { Api } from "../../api/api";
 import { EventComponent } from "../../components/EvenComponent";
 
-const EventsListing: React.FC = () => {
+export function EventsListing() {
   const api = new Api();
   const [events, setEvents] = useState<EventAttributes[]>([]);
   useEffect(() => {
@@ -29,4 +29,4 @@ const EventsListing: React.FC = () => {
   );
 };
 
-export default EventsListing;
+
