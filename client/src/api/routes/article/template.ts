@@ -2,7 +2,7 @@ import { Article, type ArticleAttributes } from "./article";
 
 export const templateGetAllArticles: ArticleAttributes[] = [
   {
-    id: "101",
+    id: 101,
     title: "Explorando os Avanços da Inteligência Artificial Generativa",
     user: {
       user_id: "u001",
@@ -51,14 +51,14 @@ export const templateGetAllArticles: ArticleAttributes[] = [
   Concluímos com previsões baseadas em tendências atuais e opiniões de especialistas sobre o futuro da inteligência artificial generativa, 
   seu papel na sociedade e os desafios que ainda precisam ser enfrentados para garantir que ela seja utilizada de forma ética, segura e responsável.`,
     status: "created",
-    tematic_area: ["Inteligência Artificial", "Tecnologia", "Ética Digital"],
+    tematic_area: "Inteligência Artificial",
     url: "https://revista-tech.com/artigos/ia-generativa-2025",
     version: 2,
     created_at: "2025-04-25T08:15:00Z",
     updated_at: "2025-05-06T10:45:00Z",
   },
   {
-    id: "2",
+    id: 2,
     title: "Prototipação com Arduino",
     user: {
       user_id: "1",
@@ -81,14 +81,14 @@ export const templateGetAllArticles: ArticleAttributes[] = [
     likes: 4,
     resume: "Projeto de prototipação",
     status: "created",
-    tematic_area: ["IA"],
+    tematic_area: "IA",
     url: "path://algo.com",
     version: 1,
     created_at: "2025-05-01T10:00:00Z",
     updated_at: "2025-05-01T10:00:00Z",
   },
   {
-    id: "3",
+    id: 3,
     title: "Outro Artigo sobre IA",
     user: {
       user_id: "1",
@@ -117,7 +117,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
     likes: 4,
     resume: "Um resumo legal",
     status: "created",
-    tematic_area: ["IA"],
+    tematic_area: "IA",
     url: "path://algo.com",
     version: 1,
     created_at: "2025-05-01T10:00:00Z",
@@ -126,7 +126,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
 ];
 
 export const templateGetByIdArticles = new Article({
-  id: "101",
+  id: 101,
   title: "Explorando os Avanços da Inteligência Artificial Generativa",
   user: {
     user_id: "u001",
@@ -175,8 +175,8 @@ destaca como essas mudanças exigem uma nova abordagem para regulamentação e g
 Concluímos com previsões baseadas em tendências atuais e opiniões de especialistas sobre o futuro da inteligência artificial generativa, 
 seu papel na sociedade e os desafios que ainda precisam ser enfrentados para garantir que ela seja utilizada de forma ética, segura e responsável.`,
   status: "created",
-  tematic_area: ["Inteligência Artificial", "Tecnologia", "Ética Digital"],
-  url: "https://revista-tech.com/artigos/ia-generativa-2025",
+  tematic_area: "Inteligência Artificial",
+  url: "https://revista-tech.com/artigos/4547sd",
   version: 2,
   created_at: "2025-04-25T08:15:00Z",
   updated_at: "2025-05-06T10:45:00Z",

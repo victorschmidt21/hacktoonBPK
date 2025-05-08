@@ -9,7 +9,7 @@ export class CommentsRoute {
         this.server = server;
     }
 
-    async getByIdArticle(id: number): Promise<CommentsAttributes[]> {
+    async getByIdArticle(id: number | undefined): Promise<CommentsAttributes[]> {
         const response = await this.server?.get("comentario/" + id);
         return response?.data ?? templateGetByIdArticleComments
     }
