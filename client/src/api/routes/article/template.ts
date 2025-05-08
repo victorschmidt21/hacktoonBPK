@@ -2,7 +2,7 @@ import { Article, type ArticleAttributes } from "./article";
 
 export const templateGetAllArticles: ArticleAttributes[] = [
   {
-    id: "101",
+    id: 101,
     title: "Explorando os Avanços da Inteligência Artificial Generativa",
     user: {
       user_id: "u001",
@@ -58,7 +58,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
     updated_at: "2025-05-06T10:45:00Z",
   },
   {
-    id: "2",
+    id: 2,
     title: "Prototipação com Arduino",
     user: {
       user_id: "1",
@@ -88,7 +88,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
     updated_at: "2025-05-01T10:00:00Z",
   },
   {
-    id: "3",
+    id: 3,
     title: "Outro Artigo sobre IA",
     user: {
       user_id: "1",
@@ -126,7 +126,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
 ];
 
 export const templateGetByIdArticles = new Article({
-  id: "101",
+  id: 101,
   title: "Explorando os Avanços da Inteligência Artificial Generativa",
   user: {
     user_id: "u001",

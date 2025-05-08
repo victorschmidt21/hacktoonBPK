@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
-import { ArticleView } from "./pages/article";
+import { ArticleView } from "./pages/articleView";
 import { EventsListing } from "./pages/eventListing";
 import { EventRegistration } from "./pages/eventRegistration";
 import { LoginScreen } from "./pages/loginScreen";
 import { RequireAuth } from "./components/RequireAuth";
+import { MyArticle } from "./pages/myArticle";
 
 export const routerApp = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const routerApp = createBrowserRouter([
           {
             element: <ArticleView />,
             path: "/article/:id",
+          },
+          {
+            element: <MyArticle />,
+            path: "/article",
           },
           {
             element: <EventsListing />,

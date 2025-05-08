@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import type { EventAttributes } from "../../api/routes/events/events";
 import { Api } from "../../api/api";
 import { EventComponent } from "../../components/EvenComponent";
