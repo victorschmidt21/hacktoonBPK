@@ -6,12 +6,16 @@ import type { ArticleAttributes } from "../../../api/routes/article/article";
 export function Home() {
   const api = new Api();
   const [articles, setArticles] = useState<ArticleAttributes[]>([]);
+  
   useEffect(() => {
     async function getArticles() {
       const response = await api.articles.getAll();
-      setArticles(response);
+      const articlePublish = response.filter((item)=> item.status == "aprovado")
+      setArticles(articlePublish);
     }
+
     getArticles();
+    console.log(articles)
   }, []);
 
   return (

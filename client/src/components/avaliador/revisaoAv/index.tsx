@@ -7,7 +7,22 @@ const RevisaoAv = ({ articleId }: { articleId: number }) => {
   const api = new Api();
 
   async function getReviewsByArticleId() {
-    const response = await api.review.getAll();
+    const response: ReviewAttributes[] = [{
+      article_id: 1,
+      comentario: "Muito interessante. Apenas teria pontos de melhoria na questão do resumo.",
+      created_at: new Date("05-08-2025").toISOString(),
+      nota: 90,
+      review_id: 1,
+      user_id: "1"
+    },
+    {
+      article_id: 1,
+      comentario: "Na seção de metodologia, é necessário uma explicação melhor.",
+      created_at: new Date("05-20-2025").toISOString(),
+      nota: 70,
+      review_id: 1,
+      user_id: "1"
+    }]
     setReviews(response);
   }
 

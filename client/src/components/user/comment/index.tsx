@@ -13,8 +13,7 @@ const CommentSection = ({ articleId }: { articleId: number }) => {
   const { user } = useUserStore();
 
   async function getCommentsByArticleId() {
-    const response = await api.comments.getByIdArticle(articleId);
-    setComments(response);
+    setComments([]);
   }
 
   useEffect(() => {

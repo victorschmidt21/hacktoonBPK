@@ -11,6 +11,8 @@ export default class ArticlesRepository {
         `SELECT
     a.article_id,
     a.title AS tittle,
+    a.created_at,
+    a.evento_id
     JSON_OBJECT(
         'idUser', cu.idUser,
         'userName', cu.userName,
@@ -19,7 +21,7 @@ export default class ArticlesRepository {
         'type', cu.type,
         'created_at', cu.created_at,
         'updated_at', cu.updated_at
-    ) AS creator,
+    ) AS user,
     a.resumo,
     a.url_arquivo,
     a.status,
@@ -79,7 +81,7 @@ ORDER BY a.created_at DESC;`
             'type', cu.type,
             'created_at', cu.created_at,
             'updated_at', cu.updated_at
-          ) AS creator,
+          ) AS user,
           COALESCE(
             JSON_ARRAYAGG(
               JSON_OBJECT(
@@ -135,7 +137,7 @@ ORDER BY a.created_at DESC;`
             'type', cu.type,
             'created_at', cu.created_at,
             'updated_at', cu.updated_at
-          ) AS creator,
+          ) AS user,
           COALESCE(
             JSON_ARRAYAGG(
               JSON_OBJECT(
@@ -219,7 +221,7 @@ ORDER BY a.created_at DESC;`
             'type', cu.type,
             'created_at', cu.created_at,
             'updated_at', cu.updated_at
-          ) AS creator,
+          ) AS user,
           COALESCE(
             JSON_ARRAYAGG(
               JSON_OBJECT(
@@ -275,7 +277,7 @@ ORDER BY a.created_at DESC;`
             'type', cu.type,
             'created_at', cu.created_at,
             'updated_at', cu.updated_at
-          ) AS creator,
+          ) AS user,
           COALESCE(
             JSON_ARRAYAGG(
               JSON_OBJECT(
@@ -330,9 +332,7 @@ ORDER BY a.created_at DESC;`
           articleData.creator_id,
           articleData.resumo,
           articleData.url_arquivo,
-          Array.isArray(articleData.key_words)
-            ? articleData.key_words.join(",")
-            : articleData.key_words,
+          articleData.key_words,
           articleData.tematic_area,
           articleData.status || "criado",
           articleData.version || 1,

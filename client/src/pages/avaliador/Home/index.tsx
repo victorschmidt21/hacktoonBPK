@@ -9,7 +9,7 @@ export function HomeAvaliador() {
   useEffect(() => {
     async function getEvents() {
       const response = (await api.events.getAll()).filter((event) => {
-        return event.status === "Em andamento";
+        return event.status === "Andamento";
       });
       setEvents(response);
     }

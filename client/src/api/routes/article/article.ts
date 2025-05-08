@@ -2,18 +2,19 @@ import type { EventAttributes } from "../events/events"
 
 export interface Colaborator {
     user_id: string
-    name: string,
-    urlPerfil?: string
+    userName: string,
+    url_img_user: string
+    created_at: string
 }
 
 
 export interface ArticleAttributes {
-    id: number
-    title: string,
+    article_id: number
+    tittle: string,
     user: Colaborator
     event: EventAttributes
-    colaborators_id: Colaborator[]
-    resume: string
+    colaborators: Colaborator[]
+    resumo: string
     key_words: string[]
     tematic_area: string
     url: string
@@ -22,15 +23,16 @@ export interface ArticleAttributes {
     likes: number
     updated_at: string
     created_at: string
+    evento_id: number
 }
 
 export class Article implements ArticleAttributes {
-    id: number
-    title: string
+    article_id: number
+    tittle: string
     user: Colaborator
     event: EventAttributes
-    colaborators_id: Colaborator[]
-    resume: string
+    colaborators: Colaborator[]
+    resumo: string
     key_words: string[]
     tematic_area: string
     url: string
@@ -39,14 +41,15 @@ export class Article implements ArticleAttributes {
     likes: number
     updated_at: string
     created_at: string
+    evento_id: number
 
     constructor(attributes: ArticleAttributes) {
-        this.colaborators_id = attributes.colaborators_id;
+        this.colaborators = attributes.colaborators;
         this.event = attributes.event;
-        this.id = attributes.id;
+        this.article_id = attributes.article_id;
         this.key_words = attributes.key_words;
         this.likes = attributes.likes;
-        this.resume = attributes.resume;
+        this.resumo = attributes.resumo;
         this.status = attributes.status;
         this.tematic_area = attributes.tematic_area;
         this.url = attributes.url;
@@ -54,7 +57,8 @@ export class Article implements ArticleAttributes {
         this.version = attributes.version;
         this.created_at = attributes.created_at;
         this.updated_at = attributes.updated_at
-        this.title = attributes.title        
+        this.tittle = attributes.tittle      
+        this.evento_id = attributes.evento_id  
     }
 }
 

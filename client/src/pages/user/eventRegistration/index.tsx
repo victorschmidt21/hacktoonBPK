@@ -4,9 +4,14 @@ import {
   type Colaborator,
 } from "../../../api/routes/article/article";
 import type { EventAttributes } from "../../../api/routes/events/events";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Api } from "../../../api/api";
+import { useUserStore } from "../../../context/userContext";
 
 export function EventRegistration() {
+  const { user } = useUserStore();
+  const api = new Api()
+  const navigator = useNavigate()
   const { id } = useParams();
   const event: EventAttributes = {
     evento_id: 1,
@@ -16,24 +21,26 @@ export function EventRegistration() {
       "Aprenda os fundamentos de HTML, CSS e JavaScript em um workshop prático de 8 horas.",
     dt_start: "2025-05-10T09:00:00",
     dt_end: "2025-05-10T17:00:00",
-    status: "Em andamento",
+    status: "Andamento",
     updated_at: "2025-05-07T14:30:22",
     created_at: "2025-05-01T10:15:45",
   };
 
   const currentUser: Colaborator = {
     user_id: "user123",
-    name: "João Silva",
-    urlPerfil: "https://via.placeholder.com/40",
+    idUser: 123,
+    userName: "João Silva",
+    url_img_user: "https://via.placeholder.com/40",
+    created_at: "2025-05-01T10:15:45",
   };
 
   const [articleData, setArticleData] = useState<Partial<ArticleAttributes>>({
-    title: "",
-    resume: "",
+    tittle: "",
+    resumo: "",
     key_words: [],
     tematic_area: "",
     url: "",
-    colaborators_id: [],
+    colaborators: [],
     user: currentUser,
     event: event,
     version: 1,
@@ -85,14 +92,17 @@ export function EventRegistration() {
   const addCollaborator = () => {
     if (newCollaborator.email.trim()) {
       const newCollab: Colaborator = {
+        idUser: 454,
         user_id: `user_${Date.now()}`,
-        name: "",
-        urlPerfil: "https://via.placeholder.com/40",
+        userName: newCollaborator.email,
+        url_img_user: "https://via.placeholder.com/40",
+        created_at: "2025-05-01T10:15:45",
       };
+
 
       setArticleData({
         ...articleData,
-        colaborators_id: [...(articleData.colaborators_id || []), newCollab],
+        colaborators: [...(articleData.colaborators || []), newCollab],
       });
 
       setNewCollaborator({ email: "" });
@@ -103,22 +113,37 @@ export function EventRegistration() {
   const removeCollaborator = (userId: string) => {
     setArticleData({
       ...articleData,
-      colaborators_id: articleData.colaborators_id?.filter(
+      colaborators: articleData.colaborators?.filter(
         (c) => c.user_id !== userId
       ),
     });
   };
 
   // Handle file upload
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFileSelected(e.target.files[0]);
-      // Normalmente, você faria o upload para o servidor e obteria uma URL
-      // Aqui estamos apenas simulando
-      setArticleData({
-        ...articleData,
-        url: "https://example.com/uploads/article.pdf",
-      });
+  const [base64File, setBase64File] = useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type === "application/pdf" && file.size <= 10 * 1024 * 1024) {
+      setFileSelected(file);
+
+      // Convert the file to Base64
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          const base64String = reader.result.split(",")[1];
+          setBase64File(base64String);
+        } else {
+          console.error("FileReader result is not a string");
+          setFileSelected(null);
+          setBase64File(null);
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Por favor, selecione um arquivo PDF com até 10MB.");
+      setFileSelected(null);
+      setBase64File(null);
     }
   };
 
@@ -126,10 +151,35 @@ export function EventRegistration() {
   const handleSubmit = () => {
     setLoading(true);
 
-    // Simulando uma chamada de API
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+    setLoading(false);
+    try {
+      console.log({
+        colaborators: articleData.colaborators || [],
+        creator_id: 9,
+        evento_id: Number(id),
+        key_words: articleData.key_words || [],
+        resumo: articleData.resumo || "",
+        status: articleData.status || "",
+        tematic_area: articleData.tematic_area || "",
+        tittle: articleData.tittle || "",
+        url_arquivo: base64File || ""
+      })
+      api.articles.post({
+        colaborators: articleData.colaborators || [],
+        creator_id: Number(user?.id),
+        evento_id: Number(id),
+        key_words: articleData.key_words || [],
+        resumo: articleData.resumo || "",
+        status: articleData.status || "",
+        tematic_area: articleData.tematic_area || "",
+        tittle: articleData.tittle || "",
+        url_arquivo: base64File || ""
+      })
+    } catch (error) {
+      console.log(error)
+
+    }
+    navigator("/eventos")
   };
 
   return (
@@ -150,9 +200,9 @@ export function EventRegistration() {
               </label>
               <input
                 type="text"
-                id="title"
-                name="title"
-                value={articleData.title}
+                id="tittle"
+                name="tittle"
+                value={articleData.tittle}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#243444] focus:border-transparent"
                 required
@@ -162,7 +212,7 @@ export function EventRegistration() {
             <div>
               <label
                 className="block text-gray-700 font-medium mb-2"
-                htmlFor="resume"
+                htmlFor="resumeo"
               >
                 Resumo*{" "}
                 <span className="text-sm font-normal text-gray-500">
@@ -170,17 +220,17 @@ export function EventRegistration() {
                 </span>
               </label>
               <textarea
-                id="resume"
-                name="resume"
-                value={articleData.resume}
+                id="resumo"
+                name="resumo"
+                value={articleData.resumo}
                 onChange={handleInputChange}
                 rows={5}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#243444] focus:border-transparent"
                 required
               />
               <div className="mt-1 text-sm text-gray-500">
-                {articleData.resume?.length || 0} caracteres
-                {articleData.resume && articleData.resume.length < 250 && (
+                {articleData.resumo?.length || 0} caracteres
+                {articleData.resumo && articleData.resumo.length < 250 && (
                   <span className="text-red-500"> (mínimo: 250)</span>
                 )}
               </div>
@@ -251,6 +301,7 @@ export function EventRegistration() {
               </label>
               <div className="flex">
                 <input
+                  name="tematic_area"
                   type="text"
                   value={articleData.tematic_area}
                   onChange={handleInputChange}
@@ -282,12 +333,12 @@ export function EventRegistration() {
           <div className="mb-6">
             <div className="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-100">
               <img
-                src={currentUser.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                alt={currentUser.name}
+                src={currentUser.url_img_user ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
+                alt={currentUser.userName}
                 className="w-10 h-10 rounded-full mr-4"
               />
               <div>
-                <div className="font-medium">{currentUser.name} (Você)</div>
+                <div className="font-medium">{currentUser.userName} (Você)</div>
                 <div className="text-sm text-gray-500">Autor Principal</div>
               </div>
             </div>
@@ -331,27 +382,23 @@ export function EventRegistration() {
             </button>
           </div>
 
-          {articleData.colaborators_id &&
-            articleData.colaborators_id.length > 0 && (
+          {articleData.colaborators &&
+            articleData.colaborators.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-lg font-medium text-gray-700 mb-3">
                   Colaboradores Adicionados
                 </h3>
 
                 <div className="space-y-3">
-                  {articleData.colaborators_id.map((collaborator, index) => (
+                  {articleData.colaborators.map((collaborator, index) => (
                     <div
                       key={index}
                       className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center">
-                        <img
-                          src={collaborator.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                          alt={collaborator.name}
-                          className="w-8 h-8 rounded-full mr-3"
-                        />
+
                         <div>
-                          <div className="font-medium">{collaborator.name}</div>
+                          <div className="font-medium">{collaborator.userName}</div>
                         </div>
                       </div>
                       <button
@@ -471,11 +518,11 @@ export function EventRegistration() {
               <div className="mt-3 space-y-3">
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Título</h4>
-                  <p className="text-gray-800">{articleData.title}</p>
+                  <p className="text-gray-800">{articleData.tittle}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Resumo</h4>
-                  <p className="text-gray-800">{articleData.resume}</p>
+                  <p className="text-gray-800">{articleData.resumo}</p>
                 </div>
               </div>
             </div>
@@ -516,26 +563,26 @@ export function EventRegistration() {
               <div className="space-y-3">
                 <div className="flex items-center">
                   <img
-                    src={currentUser.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                    alt={currentUser.name}
+                    src={currentUser.url_img_user ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
+                    alt={currentUser.userName}
                     className="w-8 h-8 rounded-full mr-3"
                   />
                   <div>
                     <div className="font-medium">
-                      {currentUser.name} (Autor Principal)
+                      {currentUser.userName} (Autor Principal)
                     </div>
                   </div>
                 </div>
 
-                {articleData.colaborators_id?.map((collaborator, index) => (
+                {articleData.colaborators?.map((collaborator, index) => (
                   <div key={index} className="flex items-center">
                     <img
-                      src={collaborator.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                      alt={collaborator.name}
+                      src={collaborator.url_img_user ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
+                      alt={collaborator.userName}
                       className="w-8 h-8 rounded-full mr-3"
                     />
                     <div>
-                      <div className="font-medium">{collaborator.name}</div>
+                      <div className="font-medium">{collaborator.userName}</div>
                     </div>
                   </div>
                 ))}
@@ -598,9 +645,8 @@ export function EventRegistration() {
                 Voltar
               </button>
               <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${
-                  loading ? "opacity-70 cursor-not-allowed" : ""
-                }`}
+                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                 onClick={handleSubmit}
                 disabled={loading}
               >

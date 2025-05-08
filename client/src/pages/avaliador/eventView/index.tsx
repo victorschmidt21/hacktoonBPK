@@ -29,15 +29,19 @@ export function EventViewAv() {
   async function getArticles(eventoId: number) {
     console.log(eventoId);
     const response = (await api.articles.getAll()).filter((article) => {
-      return article.event.evento_id === eventoId;
+      return article.evento_id === eventoId;
     });
-    console.log(response);
+    console.log("articles: ", response);
     setArticles(response);
   }
 
   useEffect(() => {
     async function getEvents() {
-      const response = await api.events.getById(id);
+      const response = (await api.events.getAll()).filter((event) =>{
+        return event?.evento_id === Number(id);
+      })[0];
+
+      console.log(response)
       setEvent(response);
 
       getArticles(response.evento_id);

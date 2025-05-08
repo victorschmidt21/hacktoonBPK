@@ -21,7 +21,9 @@ export function EventView() {
   const api = new Api();
   useEffect(() => {
     async function getEvents() {
-      const response = await api.events.getById(id);
+      const response = (await api.events.getAll()).filter((event) => {
+        return event.evento_id === Number(id);
+      })[0];
       setEvent(response);
     }
     getEvents();

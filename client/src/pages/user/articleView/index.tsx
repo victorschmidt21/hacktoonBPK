@@ -13,6 +13,16 @@ export function ArticleView() {
   const [article, setArticle] = useState<ArticleAttributes>();
   const { id } = useParams();
   const navigation = useNavigate();
+
+  const [like, setLike] = useState({ num: 148, like: false });
+
+  const handleLike = () => {
+    setLike((prev) => ({
+      like: !prev.like,
+      num: prev.like ? prev.num - 1 : prev.num + 1,
+    }));
+  };
+
   useEffect(() => {
     async function getArticleById() {
       const response = await api.articles.getById(id);
@@ -21,6 +31,7 @@ export function ArticleView() {
     getArticleById();
   }, []);
   const date = article?.created_at ? new Date(article.created_at) : null;
+  console.log(article)
 
   const formattedDateCreated = date?.toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -33,19 +44,19 @@ export function ArticleView() {
       <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <article className="bg-white p-8 rounded-lg shadow-sm">
           <header className="mb-8">
-            <h1 className="text-3xl font-bold text-[#243444] mb-4">
-              {article?.title}
+            <h1 className="text-3xl font-bold text-[#243444] mb-2">
+              {article?.tittle}
             </h1>
 
-            <div className="flex items-center mb-6">
+            <div className="flex items-center">
               <img
-                src={article?.user.urlPerfil  ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-                alt={article?.user.name}
+                src={article?.user.url_img_user ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
+                alt={article?.user.userName}
                 className="w-12 h-12 rounded-full mr-4"
               />
               <div>
                 <div className="font-medium text-gray-900">
-                  {article?.user.name}
+                  {article?.user.userName}
                 </div>
                 <div className="text-gray-500 text-sm flex items-center">
                   <span>{formattedDateCreated}</span>
@@ -53,13 +64,13 @@ export function ArticleView() {
               </div>
             </div>
           </header>
-          <div className="mt-5 border-t pt-4">
+          <div className="border-t pt-4">
             <div className="flex flex-wrap gap-2 flex-col">
               <h2 className="font-semibold">Autores:</h2>
               <div className="flex items-center text-sm flex-wrap space-x-2">
-                {article?.colaborators_id.map((item) => (
-                  <a className="inline-flex items-center px-2 py-1 rounded bg-neutral-200 text-neutral-800 cursor-pointer hover:font-semibold">
-                    {item.name}
+                {article?.colaborators.map((item) => (
+                  <a key={item.idUser} className="inline-flex items-center px-2 py-1 rounded bg-neutral-200 text-neutral-800 cursor-pointer hover:font-semibold">
+                    {item.userName}
                   </a>
                 ))}
               </div>
@@ -71,7 +82,7 @@ export function ArticleView() {
               <h2 className="font-semibold">Tags:</h2>
               <div className="flex items-center text-sm flex-wrap space-x-2 space-y-2">
                 {article?.key_words.map((item) => (
-                  <Tag>{item}</Tag>
+                  <Tag key={item}>{item}</Tag>
                 ))}
               </div>
             </div>
@@ -81,7 +92,7 @@ export function ArticleView() {
             <div className="flex flex-wrap gap-2">
               <h2 className="font-semibold">Resumo:</h2>
               <div className="flex items-center text-sm flex-wrap space-x-2">
-                {article?.resume}
+                {article?.resumo}
               </div>
             </div>
           </div>
@@ -98,7 +109,11 @@ export function ArticleView() {
           <div className="flex space-x-4 mt-4 justify-between">
             {article?.status == "aprovado" && (
               <div className="flex space-x-4">
-                <button className="flex items-center text-gray-500 hover:text-gray-900">
+                <button onClick={handleLike}
+                  className={`flex items-center  ${like.like
+                      ? "text-gray-950"
+                      : "hover:text-gray-900 text-gray-400"
+                    }  cursor-pointer`}>
                   <svg
                     className="h-5 w-5 mr-1"
                     viewBox="0 0 20 20"
@@ -110,7 +125,7 @@ export function ArticleView() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span>{article?.likes}</span>
+                  <span>{like.num}</span>
                 </button>
                 <button className="flex items-center text-gray-500 hover:text-gray-900">
                   <svg
@@ -131,7 +146,7 @@ export function ArticleView() {
             {article?.status != "aprovado" && (
               <a
                 className="px-2 py-1 rounded-lg bg-[#243444] text-white cursor-pointer flex items-center space-x-2"
-                onClick={() => navigation(`/eventregistration/${article?.id}`)}
+                onClick={() => navigation(`/eventregistration/${article?.article_id}`)}
               >
                 <p>Editar</p>
                 <BiEditAlt />
@@ -140,10 +155,10 @@ export function ArticleView() {
           </div>
         </article>
         {article?.status == "aprovado" && (
-          <CommentSection articleId={article.id} />
+          <CommentSection articleId={article.article_id} />
         )}
         {article?.status != "aprovado" && (
-          <Revisao articleId={article?.id ? article.id : 123} />
+          <Revisao articleId={article?.article_id ? article.article_id : 123} />
         )}
       </main>
     </div>

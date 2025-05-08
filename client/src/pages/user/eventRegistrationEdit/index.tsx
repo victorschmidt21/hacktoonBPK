@@ -4,7 +4,7 @@ import {
   type Colaborator,
 } from "../../../api/routes/article/article";
 import type { EventAttributes } from "../../../api/routes/events/events";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Api } from "../../../api/api";
 
 export function EventRegistrationEdit() {
@@ -27,24 +27,26 @@ export function EventRegistrationEdit() {
       "Aprenda os fundamentos de HTML, CSS e JavaScript em um workshop prático de 8 horas.",
     dt_start: "2025-05-10T09:00:00",
     dt_end: "2025-05-10T17:00:00",
-    status: "Em andamento",
+    status: "Andamento",
     updated_at: "2025-05-07T14:30:22",
     created_at: "2025-05-01T10:15:45",
   };
-
+  const navigator = useNavigate()
   const currentUser: Colaborator = {
+    idUser: 445454,
     user_id: "user123",
-    name: "João Silva",
-    urlPerfil: "https://via.placeholder.com/40",
+    userName: "João Silva",
+    url_img_user: "https://via.placeholder.com/40",
+    created_at: "2025-05-01T10:15:45",
   };
 
   const [articleData, setArticleData] = useState<Partial<ArticleAttributes>>({
-    title: article?.title,
-    resume: article?.resume,
+    tittle: article?.tittle,
+    resumo: article?.resumo,
     key_words: article?.key_words,
     tematic_area: article?.tematic_area,
     url: article?.url,
-    colaborators_id: article?.colaborators_id,
+    colaborators: article?.colaborators,
     user: currentUser,
     event: event,
     version: 1,
@@ -54,7 +56,6 @@ export function EventRegistrationEdit() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [newKeyword, setNewKeyword] = useState<string>("");
-  const [newArea, setNewArea] = useState<string>("");
   const [newCollaborator, setNewCollaborator] = useState<{
     email: string;
   }>({
@@ -98,13 +99,15 @@ export function EventRegistrationEdit() {
     if (newCollaborator.email.trim()) {
       const newCollab: Colaborator = {
         user_id: `user_${Date.now()}`,
-        name: "",
-        urlPerfil: "https://via.placeholder.com/40",
+        idUser: 454545,
+        userName: "",
+        url_img_user: "https://via.placeholder.com/40",
+        created_at: "2025-05-01T10:15:45",
       };
 
       setArticleData({
         ...articleData,
-        colaborators_id: [...(articleData.colaborators_id || []), newCollab],
+        colaborators: [...(articleData.colaborators || []), newCollab],
       });
 
       setNewCollaborator({ email: "" });
@@ -114,7 +117,7 @@ export function EventRegistrationEdit() {
   const removeCollaborator = (userId: string) => {
     setArticleData({
       ...articleData,
-      colaborators_id: articleData.colaborators_id?.filter(
+      colaborators: articleData.colaborators?.filter(
         (c) => c.user_id !== userId
       ),
     });
@@ -136,6 +139,7 @@ export function EventRegistrationEdit() {
 
     setTimeout(() => {
       setLoading(false);
+      navigator("/article/21")
     }, 1500);
   };
 
@@ -159,7 +163,7 @@ export function EventRegistrationEdit() {
                 type="text"
                 id="title"
                 name="title"
-                value={articleData.title}
+                value={articleData.tittle}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#243444] focus:border-transparent"
                 required
@@ -179,15 +183,15 @@ export function EventRegistrationEdit() {
               <textarea
                 id="resume"
                 name="resume"
-                value={articleData.resume}
+                value={articleData.resumo}
                 onChange={handleInputChange}
                 rows={5}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#243444] focus:border-transparent"
                 required
               />
               <div className="mt-1 text-sm text-gray-500">
-                {articleData.resume?.length || 0} caracteres
-                {articleData.resume && articleData.resume.length < 250 && (
+                {articleData.resumo?.length || 0} caracteres
+                {articleData.resumo && articleData.resumo.length < 250 && (
                   <span className="text-red-500"> (mínimo: 250)</span>
                 )}
               </div>
@@ -263,12 +267,12 @@ export function EventRegistrationEdit() {
           <div className="mb-6">
             <div className="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-100">
               <img
-                src={currentUser.urlPerfil}
-                alt={currentUser.name}
+                src={currentUser.url_img_user}
+                alt={currentUser.userName}
                 className="w-10 h-10 rounded-full mr-4"
               />
               <div>
-                <div className="font-medium">{currentUser.name} (Você)</div>
+                <div className="font-medium">{currentUser.userName} (Você)</div>
                 <div className="text-sm text-gray-500">Autor Principal</div>
               </div>
             </div>
@@ -312,22 +316,22 @@ export function EventRegistrationEdit() {
             </button>
           </div>
 
-          {articleData.colaborators_id &&
-            articleData.colaborators_id.length > 0 && (
+          {articleData.colaborators &&
+            articleData.colaborators.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-lg font-medium text-gray-700 mb-3">
                   Colaboradores Adicionados
                 </h3>
 
                 <div className="space-y-3">
-                  {articleData.colaborators_id.map((collaborator, index) => (
+                  {articleData.colaborators.map((collaborator, index) => (
                     <div
                       key={index}
                       className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center">
                         <div>
-                          <div className="font-medium">{collaborator.name}</div>
+                          <div className="font-medium">{collaborator.userName}</div>
                         </div>
                       </div>
                       <button
@@ -453,11 +457,11 @@ export function EventRegistrationEdit() {
               <div className="mt-3 space-y-3">
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Título</h4>
-                  <p className="text-gray-800">{articleData.title}</p>
+                  <p className="text-gray-800">{articleData.tittle}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Resumo</h4>
-                  <p className="text-gray-800">{articleData.resume}</p>
+                  <p className="text-gray-800">{articleData.resumo}</p>
                 </div>
               </div>
             </div>
@@ -499,15 +503,15 @@ export function EventRegistrationEdit() {
                 <div className="flex items-center">
                   <div>
                     <div className="font-medium">
-                      {currentUser.name} (Autor Principal)
+                      {currentUser.userName} (Autor Principal)
                     </div>
                   </div>
                 </div>
 
-                {articleData.colaborators_id?.map((collaborator, index) => (
+                {articleData.colaborators?.map((collaborator, index) => (
                   <div key={index} className="flex items-center">
                     <div>
-                      <div className="font-medium">{collaborator.name}</div>
+                      <div className="font-medium">{collaborator.userName}</div>
                     </div>
                   </div>
                 ))}
@@ -534,8 +538,8 @@ export function EventRegistrationEdit() {
                   {fileSelected
                     ? fileSelected.name
                     : articleData.url
-                    ? articleData.url.split("/").pop() || "artigo.pdf"
-                    : "Nenhum arquivo selecionado"}
+                      ? articleData.url.split("/").pop() || "artigo.pdf"
+                      : "Nenhum arquivo selecionado"}
                 </span>
               </div>
             </div>
@@ -544,9 +548,8 @@ export function EventRegistrationEdit() {
           <div className="border-t border-gray-200 pt-6 mt-6">
             <div className="flex justify-between items-center">
               <button
-                className={`px-6 py-2 bg-[#243444] text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${
-                  loading ? "opacity-70 cursor-not-allowed" : ""
-                }`}
+                className={`px-6 py-2 bg-[#243444] cursor-pointer text-white rounded-md hover:bg-opacity-90 transition-colors flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                 onClick={handleSubmit}
                 disabled={loading}
               >

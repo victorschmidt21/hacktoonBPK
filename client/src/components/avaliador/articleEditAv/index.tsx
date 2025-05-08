@@ -33,17 +33,17 @@ export function ArticleEditAv({ article }: { article: ArticleAttributes }) {
 
   return (
     <article
-      key={article.id}
+      key={article.article_id}
       className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
           <img
-            src={article.user.urlPerfil ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
-            alt={article.user.name}
+            src={article.user.url_img_user ?? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Farte-vetorial%2F36594092-homem-esvaziar-avatar-vetor-foto-espaco-reservado-para-social-redes-curriculos-foruns-e-namoro-sites-masculino-e-femea-nao-foto-imagens-para-vazio-do-utilizador-perfil&psig=AOvVaw3cxWBuQowWG-a-pnWVMp2x&ust=1746802248135000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjj3s2PlI0DFQAAAAAdAAAAABAc"}
+            alt={article.user.userName}
             className="w-10 h-10 rounded-full mr-3"
           />
-          <span className="text-gray-700 font-medium">{article.user.name}</span>
+          <span className="text-gray-700 font-medium">{article.user.userName}</span>
         </div>
         <div className="flex items-center flex-col space-y-2">
           <span
@@ -60,10 +60,10 @@ export function ArticleEditAv({ article }: { article: ArticleAttributes }) {
       <div className="mb-3">
         <h2 className="text-xl font-bold text-[#243444] mb-2">
           <a
-            href={`/avaliador/article/${article.id}`}
-            className="hover:text-blue-600 transition-colors duration-200"
+            href={`/avaliador/article/${article.article_id}`}
+            className="transition-colors duration-200"
           >
-            <div className="flex items-start">{article.title}</div>
+            <div className="flex items-start">{article.tittle}</div>
           </a>
         </h2>
       </div>
