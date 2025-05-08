@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { ArticleRoute } from "./routes/article/articleRoute";
 import { EventRoute } from "./routes/events/eventRoute";
 import { CommentsRoute } from "./routes/comments/commentsRoute";
