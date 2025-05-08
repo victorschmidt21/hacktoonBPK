@@ -5,7 +5,7 @@ export interface EventAttributes {
     description: string
     dt_start: string
     dt_end: string
-    status: string
+    status: "Em breve" | "Em andamento" | "Finalizado"
     updated_at: string
     created_at: string
 }
@@ -17,7 +17,7 @@ export class Event implements EventAttributes {
     dt_start: string
     evento_id: number
     img_url_evento: string
-    status: string
+    status: "Em breve" | "Em andamento" | "Finalizado"
     title: string
     updated_at: string
 

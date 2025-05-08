@@ -19,7 +19,7 @@ export const templateGetAllEvents: EventAttributes[] = [
     description: "Desafios de programação em equipe por 48h.",
     dt_start: "2025-05-06T12:00:00.000Z",
     dt_end: "2025-05-08T12:00:00.000Z",
-    status: "Andamento",
+    status: "Em andamento",
     created_at: "2025-04-20T12:00:00.000Z",
     updated_at: "2025-05-08T15:00:00.000Z",
   },
@@ -34,10 +34,21 @@ export const templateGetAllEvents: EventAttributes[] = [
     created_at: "2025-03-15T11:00:00.000Z",
     updated_at: "2025-04-10T19:00:00.000Z",
   },
+  {
+    evento_id: 4,
+    img_url_evento: "https://example.com/event3.jpg",
+    title: "Hackathon",
+    description: "Alunos apresentam seus projetos científicos.",
+    dt_start: "2025-05-07T11:00:00.000Z",
+    dt_end: "2025-05-09T19:00:00.000Z",
+    status: "Em andamento",
+    created_at: "2025-03-15T11:00:00.000Z",
+    updated_at: "2025-04-10T19:00:00.000Z",
+  },
 ];
 
 export const templateGetByIdEvent: EventAttributes = {
-  evento_id: 3,
+  evento_id: 2,
   img_url_evento: "https://example.com/event3.jpg",
   title: "Feira de Ciências Escolar",
   description: "Alunos apresentam seus projetos científicos.",
