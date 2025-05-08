@@ -3,17 +3,17 @@ import { templateGetAllArticles, templateGetByIdArticles } from "./template";
 import type { ArticleAttributes } from "./article";
 
 export class ArticleRoute {
-    server: AxiosInstance | null
+  server: AxiosInstance | null;
 
-    constructor(server: AxiosInstance | null) {
-        this.server = server;
-    }
+  constructor(server: AxiosInstance | null) {
+    this.server = server;
+  }
 
-    async getAll(): Promise <ArticleAttributes[]> {
-        return this.server?.get("articles") || templateGetAllArticles;
-    }
+  async getAll(): Promise<ArticleAttributes[]> {
+    return this.server?.get("articles") || templateGetAllArticles;
+  }
 
-    async getById(id: string) {
-        return this.server?.get("articles/" + id) || templateGetByIdArticles;
-    }
+  async getById(id: string | undefined): Promise<ArticleAttributes> {
+    return this.server?.get("articles/" + id) || templateGetByIdArticles;
+  }
 }
