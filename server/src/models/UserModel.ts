@@ -1,7 +1,7 @@
 class User {
   private id: string | null | undefined;
   private name: string | null | undefined;
-  private password: string;
+  private password: string| null;
   private email: string;
   private url_img_user: string | null | undefined;
   private type: string | null | undefined;
@@ -10,7 +10,7 @@ class User {
 
   constructor(
     email: string,
-    password: string,
+    password: string| null,
     type?: string | null | undefined,
     name?: string | null | undefined,
     id?: string | null,
@@ -40,7 +40,7 @@ class User {
     return this.url_img_user;
   }
 
-  public getPassword(): string {
+  public getPassword(): string| null {
     return this.password;
   }
 
