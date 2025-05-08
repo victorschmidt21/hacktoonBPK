@@ -16,7 +16,7 @@ export function EventRegistration() {
       "Aprenda os fundamentos de HTML, CSS e JavaScript em um workshop prático de 8 horas.",
     dt_start: "2025-05-10T09:00:00",
     dt_end: "2025-05-10T17:00:00",
-    status: "Iniciando",
+    status: "Em breve",
     updated_at: "2025-05-07T14:30:22",
     created_at: "2025-05-01T10:15:45",
   };
@@ -37,7 +37,7 @@ export function EventRegistration() {
     user: currentUser,
     event: event,
     version: 1,
-    status: "created",
+    status: "criado",
   });
 
   const [loading, setLoading] = useState<boolean>(false);

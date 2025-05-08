@@ -50,7 +50,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
   
   Concluímos com previsões baseadas em tendências atuais e opiniões de especialistas sobre o futuro da inteligência artificial generativa, 
   seu papel na sociedade e os desafios que ainda precisam ser enfrentados para garantir que ela seja utilizada de forma ética, segura e responsável.`,
-    status: "criado",
+    status: "aprovado",
     tematic_area: "Inteligência Artificial",
     url: "https://revista-tech.com/artigos/ia-generativa-2025",
     version: 2,
@@ -80,7 +80,7 @@ export const templateGetAllArticles: ArticleAttributes[] = [
     key_words: ["Ciência e tecnologia", "Arduino"],
     likes: 4,
     resume: "Projeto de prototipação",
-    status: "revisado",
+    status: "aprovado",
     tematic_area: "IA",
     url: "path://algo.com",
     version: 1,

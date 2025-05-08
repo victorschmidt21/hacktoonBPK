@@ -1,18 +1,7 @@
 import { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Api } from "../../../api/api";
-
-export interface EventAttributes {
-  evento_id: number;
-  img_url_evento: string;
-  title: string;
-  description: string;
-  dt_start: string;
-  dt_end: string;
-  status: string;
-  updated_at: string;
-  created_at: string;
-}
+import type { EventAttributes } from "../../../api/routes/events/events";
 
 export function EventView() {
   const [event, setEvent] = useState<EventAttributes | null>(null);

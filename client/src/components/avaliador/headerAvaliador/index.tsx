@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FiLogOut } from "react-icons/fi";
 
 type NavItem = {
   name: string;
@@ -6,12 +7,13 @@ type NavItem = {
 };
 
 const HeaderAvaliador = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activePath, setActivePath] = useState<string>(
-    window.location.pathname
-  );
-
   const navItems: NavItem[] = [{ name: "Eventos", path: "/eventos" }];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleLogout = () => {
+    alert("Você saiu!");
+    setIsModalOpen(false);
+  };
 
   return (
     <header className="bg-white shadow-sm">
@@ -42,7 +44,7 @@ const HeaderAvaliador = () => {
               {navItems.map((item) => (
                 <a
                   key={item.name}
-                  className={`border-b-2 border-[primary] text-[#243444]  hover:text-[#3a556f] px-3 py-1 text-lg font-medium select-none`}
+                  className={`border-b-2 border-[primary] text-[#243444] hover:text-[#3a556f] px-3 py-1 text-lg font-medium select-none`}
                 >
                   {item.name}
                 </a>
@@ -53,7 +55,10 @@ const HeaderAvaliador = () => {
           {/* Mobile menu button */}
           <div className="flex items-center space-x-4">
             {/* User icon */}
-            <a className="text-[#243444] hover:text-[#3a556f]">
+            <button
+              onClick={() => setIsModalOpen(!isModalOpen)}
+              className="text-[#243444] hover:text-[#3a556f]"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-7 w-7"
@@ -66,12 +71,32 @@ const HeaderAvaliador = () => {
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
 
-           
+            {/* Modal */}
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <div className="bg-white p-6 rounded-xl shadow-xl w-40 text-center absolute top-18 right-5">
+          <h2 className="text-xl font-semibold text-[#243444] mb-4">
+            Deseja sair?
+          </h2>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 bg-[#243444] hover:bg-[#3a556f] text-white font-medium py-2 rounded-lg transition"
+          >
+            <FiLogOut className="text-xl" />
+            Sair
+          </button>
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className="mt-4 text-[#243444] hover:underline text-sm"
+          >
+            Cancelar
+          </button>
+        </div>
+      )}
     </header>
   );
 };

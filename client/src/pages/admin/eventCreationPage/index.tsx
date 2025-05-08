@@ -1,17 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-export interface EventAttributes {
-  evento_id: number;
-  img_url_evento: string;
-  title: string;
-  description: string;
-  dt_start: string;
-  dt_end: string;
-  status: string;
-  updated_at: string;
-  created_at: string;
-}
+import type { EventAttributes } from "../../../api/routes/events/events";
 
 const EventCreationPage = () => {
   const navigate = useNavigate();
@@ -22,7 +11,7 @@ const EventCreationPage = () => {
     description: "",
     dt_start: "",
     dt_end: "",
-    status: "",
+    status: "Em breve",
     img_url_evento: "",
   });
 
@@ -140,7 +129,7 @@ const EventCreationPage = () => {
           description: "",
           dt_start: "",
           dt_end: "",
-          status: "Rascunho",
+          status: "Em breve",
           img_url_evento: "",
         });
         handleNavigate();
@@ -385,7 +374,7 @@ const EventCreationPage = () => {
               <div className="pt-5 border-t border-gray-200">
                 <div className="flex justify-end">
                   <button
-                  onClick={handleNavigate}
+                    onClick={handleNavigate}
                     type="button"
                     className="cursor-pointer bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#243444]"
                   >

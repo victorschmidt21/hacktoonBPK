@@ -4,18 +4,8 @@ import { Api } from "../../../api/api";
 import type { ArticleAttributes } from "../../../api/routes/article/article";
 
 import { ArticleEditAv } from "../../../components/avaliador/articleEditAv";
+import type { EventAttributes } from "../../../api/routes/events/events";
 
-export interface EventAttributes {
-  evento_id: number;
-  img_url_evento: string;
-  title: string;
-  description: string;
-  dt_start: string;
-  dt_end: string;
-  status: string;
-  updated_at: string;
-  created_at: string;
-}
 
 
 

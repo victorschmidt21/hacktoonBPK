@@ -9,7 +9,10 @@ export function Home() {
   useEffect(() => {
     async function getArticles() {
       const response = await api.articles.getAll();
-      setArticles(response);
+      const articlePublish = response.filter(
+        (item) => item.status == "aprovado"
+      );
+      setArticles(articlePublish);
     }
     getArticles();
   }, []);

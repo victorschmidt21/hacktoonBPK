@@ -21,6 +21,14 @@ export function ArticleView() {
     getArticleById();
   }, []);
   const date = article?.created_at ? new Date(article.created_at) : null;
+  const [like, setLike] = useState({ num: 148, like: false });
+
+  const handleLike = () => {
+    setLike((prev) => ({
+      like: !prev.like,
+      num: prev.like ? prev.num - 1 : prev.num + 1,
+    }));
+  };
 
   const formattedDateCreated = date?.toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -96,9 +104,16 @@ export function ArticleView() {
           </div>
 
           <div className="flex space-x-4 mt-4 justify-between">
-            {article?.status == "aproved" && (
+            {article?.status == "aprovado" && (
               <div className="flex space-x-4">
-                <button className="flex items-center text-gray-500 hover:text-gray-900">
+                <button
+                  onClick={handleLike}
+                  className={`flex items-center  ${
+                    like.like
+                      ? "text-gray-9500"
+                      : "hover:text-gray-900 text-gray-400"
+                  }  cursor-pointer`}
+                >
                   <svg
                     className="h-5 w-5 mr-1"
                     viewBox="0 0 20 20"
@@ -110,9 +125,9 @@ export function ArticleView() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span>{article?.likes}</span>
+                  <span>{like.num}</span>
                 </button>
-                <button className="flex items-center text-gray-500 hover:text-gray-900">
+                <button className="flex items-center text-gray-500 hover:text-gray-900 cursor-pointer">
                   <svg
                     className="h-5 w-5 mr-1"
                     viewBox="0 0 20 20"
@@ -128,7 +143,7 @@ export function ArticleView() {
               </div>
             )}
 
-            {article?.status != "aproved" && (
+            {article?.status != "aprovado" && (
               <a
                 className="px-2 py-1 rounded-lg bg-[#243444] text-white cursor-pointer flex items-center space-x-2"
                 onClick={() => navigation(`/eventregistration/${article?.id}`)}
@@ -139,10 +154,10 @@ export function ArticleView() {
             )}
           </div>
         </article>
-        {article?.status == "aproved" && (
+        {article?.status == "aprovado" && (
           <CommentSection articleId={article.id} />
         )}
-        {article?.status != "aproved" && (
+        {article?.status != "aprovado" && (
           <Revisao articleId={article?.id ? article.id : 123} />
         )}
       </main>

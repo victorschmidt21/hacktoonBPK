@@ -1,5 +1,5 @@
-import  { useState } from "react";
-
+import { useState } from "react";
+import { useUserStore } from "../../../context/userContext";
 type NavItem = {
   name: string;
   path: string;
@@ -7,12 +7,13 @@ type NavItem = {
 
 const HeaderAd = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activePath, setActivePath] = useState("/");
-
+  const [activePath, setActivePath] = useState<string>(
+    window.location.pathname
+  );
+  const { user } = useUserStore();
   const navItems: NavItem[] = [
-
-    { name: "Eventos", path: "/eventos" },
-    { name: "Clientes", path: "/clieentes" },
+    { name: "Eventos", path: "/admin" },
+    { name: "Usuários", path: "/admin/users" },
   ];
 
   return (
@@ -45,7 +46,12 @@ const HeaderAd = () => {
                 <a
                   key={item.name}
                   href={item.path}
-                  className={`${item.path == activePath ? "border-b-2 border-[primary]" : "hover:border-b-2 hover:border-[primary]"}text-[#243444]  hover:text-[#3a556f] px-3 py-1 text-lg font-medium select-none`}
+                  onClick={() => setActivePath(item.path)}
+                  className={`${
+                    item.path == activePath
+                      ? "border-b-2 border-[primary]"
+                      : "hover:border-b-2 hover:border-[primary]"
+                  }text-[#243444]  hover:text-[#3a556f] px-3 py-1 text-lg font-medium select-none`}
                 >
                   {item.name}
                 </a>
@@ -70,6 +76,9 @@ const HeaderAd = () => {
                 />
               </svg>
             </a>
+            <p className="text-[#243444]  hover:text-[#3a556f] px-3 py-1 text-md font-medium select-none">
+              {user?.name}
+            </p>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
@@ -128,7 +137,11 @@ const HeaderAd = () => {
                 key={item.name}
                 href={item.path}
                 className={`text-[#243444] hover:text-white hover:bg-[#243444] block px-3 py-2 rounded-md text-lg font-medium relative
-                  ${activePath === item.path ? "border-l-4 border-[#243444] pl-2" : ""}
+                  ${
+                    activePath === item.path
+                      ? "border-l-4 border-[#243444] pl-2"
+                      : ""
+                  }
                 `}
                 onClick={(e) => {
                   if (item.path === "/") {
