@@ -31,7 +31,7 @@ export function EventRegistration() {
     title: "",
     resume: "",
     key_words: [],
-    tematic_area: [],
+    tematic_area: "",
     url: "",
     colaborators_id: [],
     user: currentUser,
@@ -43,7 +43,6 @@ export function EventRegistration() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [newKeyword, setNewKeyword] = useState<string>("");
-  const [newArea, setNewArea] = useState<string>("");
   const [newCollaborator, setNewCollaborator] = useState<{
     email: string;
   }>({
@@ -51,20 +50,6 @@ export function EventRegistration() {
   });
   const [fileSelected, setFileSelected] = useState<File | null>(null);
 
-  const availableAreas = [
-    "Desenvolvimento Web",
-    "Inteligência Artificial",
-    "Machine Learning",
-    "Processamento de Linguagem Natural",
-    "Desenvolvimento Mobile",
-    "Ciência de Dados",
-    "Segurança da Informação",
-    "Computação em Nuvem",
-    "Internet das Coisas",
-    "Blockchain",
-    "UX/UI Design",
-    "DevOps",
-  ];
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -95,23 +80,6 @@ export function EventRegistration() {
     setArticleData({
       ...articleData,
       key_words: articleData.key_words?.filter((k) => k !== keyword),
-    });
-  };
-
-  const addThematicArea = () => {
-    if (newArea && !articleData.tematic_area?.includes(newArea)) {
-      setArticleData({
-        ...articleData,
-        tematic_area: [...(articleData.tematic_area || []), newArea],
-      });
-      setNewArea("");
-    }
-  };
-
-  const removeThematicArea = (area: string) => {
-    setArticleData({
-      ...articleData,
-      tematic_area: articleData.tematic_area?.filter((a) => a !== area),
     });
   };
 
@@ -280,50 +248,16 @@ export function EventRegistration() {
 
             <div>
               <label className="block text-gray-700 font-medium mb-2">
-                Áreas Temáticas*{" "}
-                <span className="text-sm font-normal text-gray-500">
-                  (mínimo: 1)
-                </span>
+                Área Temática
               </label>
               <div className="flex">
-                <select
-                  value={newArea}
-                  onChange={(e) => setNewArea(e.target.value)}
+                <input
+                  type="text"
+                  value={articleData.tematic_area}
+                  onChange={handleInputChange}
+                  placeholder="Digite uma área temática"
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-[#243444] focus:border-transparent"
-                >
-                  <option value="">Selecione uma área</option>
-                  {availableAreas.map((area, index) => (
-                    <option key={index} value={area}>
-                      {area}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  onClick={addThematicArea}
-                  className="px-4 py-2 bg-[#243444] text-white rounded-r-md hover:bg-opacity-90 transition-colors"
-                  disabled={!newArea}
-                >
-                  Adicionar
-                </button>
-              </div>
-
-              <div className="mt-3 flex flex-wrap gap-2">
-                {articleData.tematic_area?.map((area, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800"
-                  >
-                    {area}
-                    <button
-                      type="button"
-                      onClick={() => removeThematicArea(area)}
-                      className="ml-2 text-blue-600 hover:text-blue-800"
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))}
+                />
               </div>
             </div>
           </div>
@@ -566,17 +500,12 @@ export function EventRegistration() {
 
               <div className="p-4 bg-gray-50 rounded-lg">
                 <h2 className="text-lg font-semibold text-[#243444] mb-3">
-                  Áreas Temáticas
+                  Área Temática
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  {articleData.tematic_area?.map((area, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800"
-                    >
-                      {area}
-                    </span>
-                  ))}
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
+                    {articleData.tematic_area}
+                  </span>
                 </div>
               </div>
             </div>

@@ -41,9 +41,11 @@ export function EventComponent({ event }: { event: EventAttributes }) {
             >
               Inscrever-se
             </a>
-            <button className="px-4 py-2 border border-gray-300  text-gray-700 cursor-pointer rounded-md hover:bg-gray-200 transition-colors">
+            <a
+            href={`/event/${event.evento_id}`}
+            className="px-4 py-2 border border-gray-300  text-gray-700 cursor-pointer rounded-md hover:bg-gray-200 transition-colors">
               Detalhes
-            </button>
+            </a>
           </div>
         </div>
       </div>

@@ -13,7 +13,7 @@ export class EventRoute {
         return this.server?.get("evento") || templateGetAllEvents;
     }
 
-    async getById(id: string): Promise<EventAttributes> {
+    async getById(id: string | undefined): Promise<EventAttributes> {
         return this.server?.get("evento/" + id) || templateGetByIdEvent;
     }
 }
