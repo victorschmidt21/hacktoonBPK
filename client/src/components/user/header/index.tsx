@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 
 type NavItem = {
   name: string;
@@ -7,7 +7,9 @@ type NavItem = {
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activePath, setActivePath] = useState("/");
+  const [activePath, setActivePath] = useState<string>(
+    window.location.pathname
+  );
 
   const navItems: NavItem[] = [
     { name: "Home", path: "/" },
@@ -39,13 +41,19 @@ const Header = () => {
               <span className="text-[#243444] font-bold text-xl">BioBlog</span>
             </div>
 
-            {/* Navigation - Desktop */}
             <nav className="hidden md:ml-6 md:flex md:space-x-8">
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.path}
-                  className={`${item.path == activePath ? "border-b-2 border-[primary]" : "hover:border-b-2 hover:border-[primary]"}text-[#243444]  hover:text-[#3a556f] px-3 py-1 text-lg font-medium select-none`}
+                  onClick={() => setActivePath(item.path)}
+                  className={`px-3 py-1 text-lg font-medium select-none text-[#243444] hover:text-[#3a556f] 
+                    ${
+                      item.path === activePath
+                        ? "border-b-2 border-[#243444]"
+                        : "hover:border-b-2 hover:border-[#243444]"
+                    }
+                  `}
                 >
                   {item.name}
                 </a>
@@ -53,9 +61,7 @@ const Header = () => {
             </nav>
           </div>
 
-          {/* Mobile menu button */}
           <div className="flex items-center space-x-4">
-            {/* User icon */}
             <a href="/profile" className="text-[#243444] hover:text-[#3a556f]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +134,11 @@ const Header = () => {
                 key={item.name}
                 href={item.path}
                 className={`text-[#243444] hover:text-white hover:bg-[#243444] block px-3 py-2 rounded-md text-lg font-medium relative
-                  ${activePath === item.path ? "border-l-4 border-[#243444] pl-2" : ""}
+                  ${
+                    activePath === item.path
+                      ? "border-l-4 border-[#243444] pl-2"
+                      : ""
+                  }
                 `}
                 onClick={(e) => {
                   if (item.path === "/") {

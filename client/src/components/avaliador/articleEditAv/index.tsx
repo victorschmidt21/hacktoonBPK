@@ -9,6 +9,28 @@ export function ArticleEditAv({ article }: { article: ArticleAttributes }) {
     year: "numeric",
   });
 
+  function capitalizeFirstLetter(text: string): string {
+    if (!text) return "";
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  const getStatusColor = (status?: string) => {
+    if (!status) return "bg-gray-100 text-gray-800";
+
+    switch (status) {
+      case "aprovado":
+        return "bg-green-100 text-green-800";
+      case "revisado":
+        return "bg-blue-100 text-blue-800";
+      case "andamento":
+        return "bg-yellow-100 text-yellow-800";
+      case "rejeitado":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
   return (
     <article
       key={article.id}
@@ -25,15 +47,11 @@ export function ArticleEditAv({ article }: { article: ArticleAttributes }) {
         </div>
         <div className="flex items-center flex-col space-y-2">
           <span
-            className={`px-3 py-1 rounded-full text-sm font-medium ${
-              article.status === "created"
-                ? "bg-neutral-200 text-neutral-700"
-                : article.status === "revisao"
-                ? "bg-yellow-100 text-yellow-800"
-                : "bg-green-200 text-green-500"
-            }`}
+            className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+              article.status
+            )}`}
           >
-            {article.status}
+            {capitalizeFirstLetter(article.status)}
           </span>
           <span>{formattedDateCreated}</span>
         </div>
