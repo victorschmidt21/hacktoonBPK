@@ -1,3 +1,4 @@
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -6,19 +7,39 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# Environment files
+.env
+.env.*.local
 *.local
 
+# TypeScript cache
+*.tsbuildinfo
+
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-/node_modules
+
+# Optional: OS-specific
+Thumbs.db
+ehthumbs.db
