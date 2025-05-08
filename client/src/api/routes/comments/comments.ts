@@ -8,3 +8,9 @@ export interface CommentsAttributes {
     updated_at: string
     user: UserAttributes
 }
+
+export interface CommentsDTOPost {
+    article_id: number
+    comentario: string
+    user_id: string
+}

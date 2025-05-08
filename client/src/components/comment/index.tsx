@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Api } from "../../api/api";
+import type { CommentsAttributes, CommentsDTOPost } from "../../api/routes/comments/comments";
+import { useUserStore } from "../../context/userContext";
 
-type Comment = {
-  id: string;
-  username: string;
-  avatarUrl: string;
-  content: string;
-  timestamp: string;
-  gostos: number;
-};
-
-const CommentSection: React.FC = () => {
-  const [comments, setComments] = useState<Comment[]>([]);
-
+const CommentSection = ({ articleId }: { articleId: number }) => {
+  const [comments, setComments] = useState<CommentsAttributes[]>([]);
+  const api = new Api();
   const [newCommentText, setNewCommentText] = useState<string>("");
+  const { user } = useUserStore();
+
+  async function getCommentsByArticleId() {
+    const response = await api.comments.getByIdArticle(articleId);
+    setComments(response);
+  }
+
+  useEffect(() => {
+      getCommentsByArticleId();
+  }, []);
 
   const handleReplyClick = (username: string) => {
     setNewCommentText(`@${username} `);
@@ -20,19 +24,13 @@ const CommentSection: React.FC = () => {
 
   const handleSubmitComment = () => {
     if (newCommentText.trim()) {
-      // Em uma aplicação real, aqui você enviaria o comentário para um backend
-      // e receberia o novo comentário com um ID gerado pelo servidor
-
-      const newComment: Comment = {
-        id: `new-${Date.now()}`,
-        username: "meu_usuario", // Normalmente viria do usuário logado
-        avatarUrl: "https://via.placeholder.com/40",
-        content: newCommentText,
-        timestamp: "agora",
-        gostos: 0,
+      const newComment: CommentsDTOPost = {
+        article_id: articleId,
+        comentario: newCommentText,
+        user_id: user!.id
       };
-
-      setComments([...comments, newComment]);
+      api.comments.post(newComment);
+      getCommentsByArticleId();
       setNewCommentText("");
     }
   };
@@ -44,15 +42,15 @@ const CommentSection: React.FC = () => {
       <div className="space-y-6 ">
         {comments.map((comment) => (
           <div
-            key={comment.id}
+            key={comment.comentario_id}
             className="flex space-x-3 bg-white p-8 rounded-lg shadow-sm"
           >
             {/* Avatar */}
             <div className="flex-shrink-0">
               <div className="w-10 h-10 rounded-full overflow-hidden ">
                 <img
-                  src={comment.avatarUrl}
-                  alt={`${comment.username} avatar`}
+                  src={comment.user.url_img_user}
+                  alt={`${comment.user.name} avatar`}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -62,13 +60,13 @@ const CommentSection: React.FC = () => {
             <div className="flex-1">
               <div className="flex items-start">
                 <div className="flex-1">
-                  <div className="font-bold">{comment.username}</div>
-                  <div className="mt-1">{comment.content}</div>
+                  <div className="font-bold">{comment.user.name}</div>
+                  <div className="mt-1">{comment.comentario}</div>
 
                   <div className="mt-2 flex items-center text-gray-400 text-sm">
                     <button
                       className="text-gray-400 cursor-pointer hover:text-gray-700"
-                      onClick={() => handleReplyClick(comment.username)}
+                      onClick={() => handleReplyClick(comment.user.name)}
                     >
                       Responder
                     </button>

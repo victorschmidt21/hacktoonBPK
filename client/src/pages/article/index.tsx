@@ -123,7 +123,7 @@ const ArticleView = () => {
             </button>
           </div>
         </article>
-        <CommentSection/>
+        <CommentSection articleId={article?.id ?? 0}/>
       </main>
     </div>
   );

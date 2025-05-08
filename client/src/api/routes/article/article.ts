@@ -8,7 +8,7 @@ export interface Colaborator {
 
 
 export interface ArticleAttributes {
-    id: string
+    id: number
     title: string,
     user: Colaborator
     event: EventAttributes
@@ -25,7 +25,7 @@ export interface ArticleAttributes {
 }
 
 export class Article implements ArticleAttributes {
-    id: string
+    id: number
     title: string
     user: Colaborator
     event: EventAttributes
